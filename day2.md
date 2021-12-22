@@ -9,7 +9,8 @@
 ```
 main VS master
 
-2020년 Black Lives MAtter(아프리카계 미국인 인종차별반대운동) 당시 master가 주인과 노예(master and slave)를 상기시킨다고 생각해 master 대신 main이라는 이름으로 기존 브랜치 이름을 변경 (하지만 아직 많은 곳에서 master를 사용하기 때문에 현 수업에서는 master 사용)
+2020년 Black Lives MAtter(아프리카계 미국인 인종차별반대운동) 당시 master가 주인과 노예(master and slave)를 상기시킨다고 생각해 
+master 대신 main이라는 이름으로 기존 브랜치 이름을 변경 (하지만 아직 많은 곳에서 master를 사용하기 때문에 현 수업에서는 master 사용)
 ```
 
 ---
