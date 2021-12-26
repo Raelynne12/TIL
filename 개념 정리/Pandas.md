@@ -60,6 +60,9 @@ s1[s1.str.contains('e')]
 #dtype: object
 #1    def
 #dtype: object
+
+Series(['a','b','c'], index = ['coffee','croffle','icecream']) 
+#데이터 자리, 인덱스 자리
 ```
 
 
@@ -142,4 +145,95 @@ list(map(lambda x,y: x[0:y], s3, vno))
 ---
 
 ### DataFrame
+
+
+
+```python
+d3 = DataFrame(np.arange(1,7).reshape(2,3), index = ['a','b'],columns=['col1','col2','col3'])
+print(d3)
+#출력결과
+#	col1	col2	col3
+#a	1	2	3
+#b	4	5	6
+
+#생성
+d1 = {'name':['smith','wo;;'], 'sal' : [900,1800]}
+d2 = DataFrame(d1)
+print(d2)
+#출력결과
+#   name   sal
+#0  smth   900
+#1  wo;;  1800
+
+df1 = DataFrame(np.arange(1,17).reshpae(4,4))
+dir(df1)  #dir() : 해당 객체가 어떤 변수와 메소드를 가지고 있는지 나열
+df1.sum(axis = 0) #행별(서로 다른 행끼리)
+df1.sum(axis = 1) #열별(서로 다른 열끼리)
+
+df1.iloc[0,0] = np.nan
+df1.iloc[:,0].sum()
+df1.iloc[:,0]     #skipna = True(default)자동으로 NaN 무시하고 연산
+
+#평균값 대치
+df1.iloc[:,0].mean()
+df1.iloc[:,0].isnull() #조건(boolean)
+df1.iloc[:,0].notnull()
+df1.iloc[:,0][df1.iloc[:,0].isnull()] = df1.iloc[:,0].mean()
+#df1.iloc[:,0] 안에서 df1.iloc[:,0].isnull()있으면 df1.iloc[:,0].mean()해라
+
+df1.iloc[:,0].var() #분산
+df1.iloc[:,0].std() #표준편차
+df1.iloc[:,0].min()
+df1.iloc[:,0].max()
+df1.iloc[:,0].median()
+df1.iloc[:,0] >= 10
+
+#합치기
+d4 = DataFrame({'A':[10,40],'B':[20,30],'C':[30,80]}, index = ['a','b'])
+d5 = DataFrame({'A':[10,40],'B':[20,30]}, index = ['a','b'])
+d4+d5     					#이렇게 하면 c열에 NaN값 나옴
+d4.add(d5, fill_value=0)
+#출력결과
+#	A	B	C
+#a	20	40	30.0
+#b	80	60	80.0
+```
+
+
+
+```
+iloc : positional indexing(행번호(row number)로 선택)
+loc : label indexing(라벨이나 조건표현으로 선택)
+```
+
+
+
+---
+
+### pandas 정렬
+
+```python
+emp = pd.read.csv('./emp.csv')  #현재 지정된 폴더 하위 emp 파일 읽어줘
+emp.ename
+emp['ename']  #Series로 뽑기
+
+emp = emp.set_index('ename')  				#오름차순 default
+print(emp.sort_index(ascending = True))		#오름차순
+print(emp.sort_index(ascending = False))	#내림차순
+print(emp.sort_index(axis = 0))  			#오름차순
+print(emp.sort_index(axis = 1))				#내림차순
+
+emp.sort_values(by = 'sal')   #by 생략가능
+emp.sort_values('sal', ascending = False)
+emp.sort_values(['deptno','sal'], ascending = [True, False])
+#출력결과
+#empno	deptno	sal
+#ename			
+#allen	2	10	4500
+#grace	4	10	4200
+#smith	1	10	4000
+#ford	3	20	4300
+#king	6	20	4000
+#scott	5	30	4100
+```
 
