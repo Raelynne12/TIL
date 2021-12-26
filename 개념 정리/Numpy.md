@@ -205,7 +205,9 @@ print(a1.transpose(0,1)) #원본 그대로 출력
 print(a1.transpose(1,0)) #행과 열 전치
 ```
 
+ 
 
+---
 
 ### 수업 외 내용
 
