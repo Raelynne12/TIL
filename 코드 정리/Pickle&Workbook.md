@@ -67,6 +67,30 @@ print(data)
 
 
 
+**openpyxl**
+
+\- 엑셀 파일을 읽고 쓰기를 python으로 할 수 있는 모듈
+
+\- 셀 번호 지정해서 이미지, 문자열 입력
+
+\- 시트 데이터 복사해서 다른 시트에 붙여넣기
+
+\- 시트 추가, 삭제
+
+**BeautifulSoup**
+
+\- html 다룰 때 쓰는 대표적인 모듈
+
+\- 크롤러에 보통 사용
+
+\- 기능이 많음(꽤 많아서 다른 파일에 다룰 예정)
+
+**Workbook**
+
+\- 엑셀파일
+
+
+
 **약국 정보 리스트 가져와서 필요한 정보만 전처리**
 
 ```python
@@ -90,7 +114,7 @@ for list_drug in list_drugs:
 	re = req.text
 	soup = BeautifulSoup(re, 'html.parser')
 	#병원명
-	yadmnm = soup.find_all('yadmnm')
+	yadmnm = soup.find_all('yadmnm')		#여러 개의 태그 가져오기
 	#종별코드명
 	sggucdnm = soup.find_all('sggucdnm')
 	#시도명
