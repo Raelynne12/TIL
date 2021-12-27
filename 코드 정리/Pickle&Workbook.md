@@ -11,11 +11,44 @@
 **pickle로 저장하고 읽기**
 
 ````python
+#사용방법
+pickle.dump(변수(객체), 파일)	#pickle로 저장
+pickle.load(파일)			  #pickle로 읽어오기 
+#pickle은 무조건 바이너리 옵션을 설정해서 파일을 열어야 함
+
+#저장
+import pickle
+menu_pic = open('menu.pickle', 'wb')  
+menu = {"메뉴":"마라탕", "가격":15000}
+print(menu)
+pickle.dump(menu, menu_pic) 	#menu의 내용을 menu_pic에 저장
+menu_pic.close()
+
+#출력
+menu_pic = open('menu.pickle', 'rb')
+menu = pickle.load(menu_pic)	#menu_pic에 저장된 내용을 menu 변수에 저장
+print(menu)
+menu_pic.close()
+
+#1
 import pandas as pd
 import pickle
 temp = pd.DataFrame({'a':[1], 'b':[2]})
 temp.to_pickle('./iampickle.pkl')
 pd.read_pickle('./iampickle.pkl')
+
+#2
+import pickle
+l1 = ['a','b','c']
+
+#pickle 저장
+with open('data.pickle', 'wb') as op:
+	pickle.dump(l1, op)
+
+#pickle 로드
+with open('data.pickle', 'rb') as od:
+	data = pickle.load(od)
+print(data)
 ````
 
 
