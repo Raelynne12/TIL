@@ -31,5 +31,30 @@ print(nrow)
 
 ### 2번
 
+**concavity_mean의 standard scaling(표준화) 후,결과가 0.1 이상인 값의 개수 출력**
+
+```python
+#1) standard scailing(표준화) = (원 데이터 - 평균) / 표준편차
+#2) minmax scailing = (원 데이터 - 최소) / (최대 - 최소)
+df1.columns
+vscale = (df1['concavity_mean'] - df1['concavity_mean'].mean()) / df1['concavity_mean'].std()
+(vscale > 0.1).sum()
+```
+
+```
+! scailing !
+
+-머신러닝을 위한 데이터셋을 정제할 때, 특성별로 데이터의 스케일이 다르면 잘 동작하지 않을 수 ㅇ
+-스케일링을 통해 모든 특성의 범위(분포)를 동일하게 만들어줘야함
+
+<<표준화 standardization>>
+특성들의 '평균'을 0, '분산'을 1로 스케일링
+→ 특성들을 정규분포로
+
+<<정규화 normalization>>
+특성들을 '특정 범위'(주로 0,1)로 스케일링
+→ 가장 작은 값은 0, 큰 값은 1로 변환 
+```
+
 
 
