@@ -1,6 +1,10 @@
 # 결측치 처리
 
 > NA(결측치) 처리
+>
+> 결측치 : 잘못 들어온 값, 누락 값(NA로 표현)
+>
+> \>> 삭제 또는 대치
 
 
 
@@ -57,4 +61,19 @@ df3.drop_duplicates(subset = ['A','B'])   #A랑B
 df2.drop_duplicates(subset=['A','B'], keep='last')	
 #중복되는 거 앞에 거 쓸건지 뒤에 거 쓸건지 
 ```
+
+````python
+#[문제]
+#df1의 a컬럼의 결측치를 a컬럼의 최소값으로 대치 후 전체 평균 계산
+
+df1['a'][df1['a'] == '.']	#점 발견
+df1['a'][df1['a'] == '.'] = np.nan	#nan으로 변경
+
+df1['a'] = df1['a'].astype('float')	#float형태로 변환
+vmin = df1['a'].min()		#a컬럼의 최소값
+df1[df1['a'].isnull()] = vmin	#결측치를 최소값으로 
+
+df1['a'].mean()					#평균 출력
+
+````
 
