@@ -66,7 +66,40 @@ vscale = (df1['concavity_mean'] - df1['concavity_mean'].mean()) / df1['concavity
 
 **10%를 제외한 값의 최대값으로 수정하고 평균을 소수점 둘째자리로 반올림**
 
+```python
+#이상치 건 수 확인
+df1['texture_se'].dropna().shape[0]		#565(행 개수)
+nx = int(np.trunc(df1['texutre_se'].dropna().shape[0]*0.1))	#56
+#np.trunc() >> 소수점 그냥 버려버림
+
+#이상치를 제외한 나머지 >> 평균
+vrank = df1['texture_se'].rank(ascending = False, method = 'first')
+#rank함수 안에는 NA값 자동으로 안넣어서 dropna안써도 됨
+#ascending = False는 내림차순, method = 'first'는 동점자 처리할 때 첫 번째로 나온 애가 1
+df1.loc[vrank > nx, 'texture_se']	#정상치 데이터
+df1.loc[~(vrank>nx), 'texture_se']	#이상치 데이터
+df1.loc[vrank <= nx, 'texture_se']	#이상치 데이터
+
+#정상치 데이터 최대값
+vamx = df1.loc[vrank > nx, 'texture_se'].max()
+df1['texture_se'].sort_values(ascending = False)[:nx]
+#sort_index는 인덱스 기준 / sort_values는 컬럼 기준
+#[:nx]는 NA값 제외
+
+#이상치 데이터를 vmax 치환
+df1.loc[vrank <= nx, 'texture_se'] = vmax
+round(df1['texture_se'].mean(),2)	#소수 둘 째자리까지 평균
 ```
+
+```
+! 이상치(Outlier) !
+
+-전체 데이터의 패턴에서 벗어난 이상값을 가진 데이터
+-모델의 성능에 영향을 받기 쉬우므로 해결해야
+
+<<IQR>>  (이상치 판단 방법 중 하나)
+사분위 값의 편차를 이용하는 방법(박스플롯 방식으로 시각화 가능)
+Q3-Q1인 IQR에 1.5를 곱해서 최소 최대값을 정한 뒤, 이 값을 넘어서는 데이터를 이상치로 간주
 ```
 
 
