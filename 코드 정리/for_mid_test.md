@@ -102,5 +102,40 @@ round(df1['texture_se'].mean(),2)	#소수 둘 째자리까지 평균
 Q3-Q1인 IQR에 1.5를 곱해서 최소 최대값을 정한 뒤, 이 값을 넘어서는 데이터를 이상치로 간주
 ```
 
+---
 
+### 4번
+
+**symmetry_mean의 결측치를 최소값으로 수정한 후 평균을 소수점 둘째자리로 반올림**
+
+```python
+from numpy import nan as NA
+
+df1['symmetry_mean'] = df1['symmetry_mean'].replace('-', NA)
+
+#최소값 확인
+df1['symmetry_mean'] = df1['symmetry_mean'].astype('float')	#float 형태로 
+vmin = df1['symmetry_mean'].min()							#최소값 찾기
+
+#결측치 수정
+df1['symmetry_mean'] = df1['symmetry_mean'].fillna(vmin)	#NA값은 최소값으로 대체
+round(df1['symmetry_mean'].mean(),2)
+```
+
+---
+
+### 참고
+
+```python
+_df = pd.DataFrame(
+    {'name': ['KIM', 'LEE', 'JANG','MIN', 'SHIN'],
+     'age': [24, 31, 25, 17, np.nan]})
+
+#동점자 처리 기준 5가지
+_df['rank_average'] = _df['age'].rank(method='average')	#default
+_df['rank_min'] = _df['age'].rank(method='min')
+_df['rank_max'] = _df['age'].rank(method='max')	#큰 값부터 하니까 1이 아니라 둘 다 2
+_df['rank_first'] = _df['age'].rank(method='first')	#첫 번째로 나온 애가 1등
+_df['rank_dense'] = _df['age'].rank(method='dense')	#min과 유사
+```
 
