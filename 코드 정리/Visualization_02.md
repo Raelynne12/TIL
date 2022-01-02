@@ -174,30 +174,52 @@ plt.show()
 
 ![image-20220101193215777](Visualization.assets/image-20220101193215777.png)
 
-```
+---
+
+### hist(히스토그램)
+
+```python
 #4. hist : 히스토그램(밀도 표현!)(전체 합 = 1)
 s1 = Series(np.random.randn(1000))     #정규분포에서 무작위 추출 / 꼭 randn으로 해야돼!
-#s1.hist(bins = 4)                       #면적을 4등분해서 네 개로 나오게(막대 개수)
+#s1.hist(bins = 4)                       #bins = 면적을 4등분해서 네 개로 나오게(막대 개수)
 
 #rand : 정해진 숫자에서 무작위 추출(균등하게 >> uniform distribution)
 #randn : 정규분포 (normal distribution)에서 무작위 추출
 
 plt.hist(s1,
-         bins = 5,
+         bins = 5,			#막대 개수 5개
          density = False)   #True로 설정시, 막대 아래 총 면적이 1이 되는 밀도함수 출력
                             #즉 y축 값이 확률로 변경되어 출력됨
 ```
 
 ![image-20220102211640003](Visualization.assets/image-20220102211640003.png)
 
+```python
+plt.hist(s1, density = True)      #확률 값으로 출력     
 ```
+
+![image-20220102234134757](Visualization.assets/image-20220102234134757.png)
+
+```python
 s1.plot(kind = 'kde')                #커널 밀도 함수 출력(연속형 히스토그램)  
 ```
 
 ![image-20220102211740147](Visualization.assets/image-20220102211740147.png)
 
 ```
+! 커널 밀도 함수 !
+
+히스토그램 등을 스무딩(smoothing)하는 것
+>> 굴곡이 심한 그래프나 히스토그램을 평준화할 때 사용하는 추정방법
+```
+
+---
+
+### 산점도
+
+```python
 #5. 산점도
+#점으로 표시해서 두 개 변수 간의 관계를 나타내는 그래프
 #iris data loading
 from sklearn.datasets import load_iris
 
@@ -234,7 +256,7 @@ plt.xlabel(x_names[0])
 plt.ylabel(x_names[1])
 plt.colorbar()
 
-plt.subplot(2,2,4)
+plt.subplot(2,2,4)		#네 번째 그래프
 plt.scatter(iris_x[:,3], iris_x[:,0], c = iris_x[:,0])
 plt.winter()
 plt.xlabel(x_names[0])
@@ -244,7 +266,11 @@ plt.colorbar()
 
 ![image-20220102211832069](Visualization.assets/image-20220102211832069.png)
 
-```
+---
+
+### box plot
+
+```python
 #6. boxplot
 
 plt.boxplot(iris_x)
