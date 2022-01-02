@@ -243,3 +243,12 @@ plt.colorbar()
 ```
 
 ![image-20220102211832069](Visualization.assets/image-20220102211832069.png)
+
+```
+#6. boxplot
+
+plt.boxplot(iris_x)
+plt.xticks(ticks = [1,2,3,4], labels = x_names)
+```
+
+![image-20220102211931146](Visualization.assets/image-20220102211931146.png)
