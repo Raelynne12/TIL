@@ -197,5 +197,49 @@ s1.plot(kind = 'kde')                #커널 밀도 함수 출력(연속형 히�
 ![image-20220102211740147](Visualization.assets/image-20220102211740147.png)
 
 ```
+#5. 산점도
+#iris data loading
+from sklearn.datasets import load_iris
+
+iris = load_iris()    #함수의 객체화
+iris.keys()
+#dict_keys(['data', 'target', 'frame', 'target_names', 'DESCR', 'feature_names', 'filename', 'data_module'])
+
+iris['DESCR']
+iris_x = iris['data']
+x_names = iris['feature_names']
+plt.subplot(2,2,1)      #2*2 그래프 중 첫 번째
+plt.scatter(iris_x[:,0],          #x축 좌표 (첫 번째 설명변수)
+            iris_x[:,1],          #y축 좌표 (두 번째 설명변수)
+            c = iris_x[:,1])      #컬러를 얘를 기준으로 바꾼다
+            #컬러 설정 안하면 모두 동일한 색으로 나옴
+            #서로 다른 숫자 전달시, 서로 다른 색으로 표현됨
+plt.spring()
+plt.xlabel(x_names[0])
+plt.ylabel(x_names[1])
+plt.colorbar()
+
+
+plt.subplot(2,2,2)      #두 번째 그래프
+plt.scatter(iris_x[:,1], iris_x[:,2], c = iris_x[:,2])
+plt.summer()
+plt.xlabel(x_names[0])
+plt.ylabel(x_names[1])
+plt.colorbar()
+
+plt.subplot(2,2,3)      #세 번째 그래프
+plt.scatter(iris_x[:,2], iris_x[:,3], c = iris_x[:,3])
+plt.autumn()
+plt.xlabel(x_names[0])
+plt.ylabel(x_names[1])
+plt.colorbar()
+
+plt.subplot(2,2,4)
+plt.scatter(iris_x[:,3], iris_x[:,0], c = iris_x[:,0])
+plt.winter()
+plt.xlabel(x_names[0])
+plt.ylabel(x_names[1])
+plt.colorbar()
 ```
 
+![image-20220102211832069](Visualization.assets/image-20220102211832069.png)
