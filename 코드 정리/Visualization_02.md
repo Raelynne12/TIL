@@ -173,3 +173,24 @@ plt.show()
 ```
 
 ![image-20220101193215777](Visualization.assets/image-20220101193215777.png)
+
+```
+#4. hist : 히스토그램(밀도 표현!)(전체 합 = 1)
+s1 = Series(np.random.randn(1000))     #정규분포에서 무작위 추출 / 꼭 randn으로 해야돼!
+#s1.hist(bins = 4)                       #면적을 4등분해서 네 개로 나오게(막대 개수)
+
+#rand : 정해진 숫자에서 무작위 추출(균등하게 >> uniform distribution)
+#randn : 정규분포 (normal distribution)에서 무작위 추출
+
+plt.hist(s1,
+         bins = 5,
+         density = False)   #True로 설정시, 막대 아래 총 면적이 1이 되는 밀도함수 출력
+                            #즉 y축 값이 확률로 변경되어 출력됨
+```
+
+![image-20220102211640003](Visualization.assets/image-20220102211640003.png)
+
+```
+s1.plot(kind = 'kde')                #커널 밀도 함수 출력(연속형 히스토그램)  
+```
+
