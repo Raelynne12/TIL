@@ -194,3 +194,8 @@ plt.hist(s1,
 s1.plot(kind = 'kde')                #커널 밀도 함수 출력(연속형 히스토그램)  
 ```
 
+![image-20220102211740147](Visualization.assets/image-20220102211740147.png)
+
+```
+```
+
