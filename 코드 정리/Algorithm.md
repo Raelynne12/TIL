@@ -70,26 +70,26 @@ print(katok)
 
 ```python
 # 함수
-def add_data(friend):
-    katok.append(None)
-    kLen = len(katok)
-    katok[kLen-1] = friend
+def add_data(friend):		#추가하는 함수
+    katok.append(None)		#빈 곳 추가
+    kLen = len(katok)		#길이 구하기
+    katok[kLen-1] = friend	
     
-def insert_data(position, friend):
-    katok.append(None)
-    kLen = len(katok)
+def insert_data(position, friend):	#삽입하는 함수
+    katok.append(None)				#빈 곳 추가
+    kLen = len(katok)				#길이 구하기
     for i in range(kLen-1, position, -1):
         katok[i] = katok[i-1]
         katok[i-1] = None
     katok[position] = friend
 
-def delete_data(position):
-    katok[position] = None
-    kLen = len(katok)
-    for i in range(position+1, kLen, 1):
-        katok[i-1] = katok[i]
-        katok[i] = None
-    del(katok[kLen-1])
+def delete_data(position):			#삭제하는 함수
+    katok[position] = None			#katok[포지션]은 빈 공간으로
+    kLen = len(katok)				#길이 구하기
+    for i in range(position+1, kLen, 1):	
+        katok[i-1] = katok[i]		#자기 뒤에 있는 걸로 대입
+        katok[i] = None				#뒤에 있는 건 빈 공간으로
+    del(katok[kLen-1])				#katok[길이-1]은 없애버리기
     
 # 전역
 katok = []
