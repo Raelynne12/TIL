@@ -34,7 +34,7 @@
 
 
 
-### 기본 코드
+### 선형 리스트 코드
 
 ```python
 # 함수 부분
@@ -64,7 +64,7 @@ print(katok)
 #['다현', '정연', '쯔위', '미나', '사나', '지효', '모모']
 ```
 
----
+
 
 ### 함수 코드
 
@@ -107,5 +107,52 @@ print(katok)
 
 delete_data(3)
 print(katok)
+```
+
+---
+
+### 단순 연결 리스트 기본 코드
+
+```python
+class Node():
+    def __init__(self):
+        self.data = None
+        self.link = None
+        
+node1 = Node()
+node1.data = '이미쉘'
+
+node2 = Node()
+node2.data = '정선희'
+node1.link = node2
+
+node3 = Node()
+node3.data = '서신애'
+node2.link = node3
+
+node4 = Node()
+node4.data = '떡대'
+node3.link = node4
+
+node5 = Node()
+node5.data = '장첸'
+node4.link = node5
+
+# 삽입
+newNode = Node()
+newNode.data = '몽골'
+newNode.link = node2.link
+node2.link = newNode
+
+#삭제
+node2.link = node3.link
+del(node3)
+
+#출력부분
+current = node1
+print(current, data, end = ' ')
+while current.link != None:
+    current = current.link
+    print(current, data, end = ' ')
 ```
 
