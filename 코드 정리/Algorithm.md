@@ -115,20 +115,20 @@ print(katok)
 
 ```python
 class Node():
-    def __init__(self):
-        self.data = None
+    def __init__(self):		#파이썬에서 클래스의 생성자를 만들 때 사용하는 규칙
+        self.data = None	#함수 선언할 때 첫 번째 인자는 self라고 선언하는 게 규칙
         self.link = None
         
-node1 = Node()
-node1.data = '이미쉘'
+node1 = Node()				#노드1 노드 생성
+node1.data = '이미쉘'		  #데이터는 이미쉘	
 
-node2 = Node()
-node2.data = '정선희'
-node1.link = node2
+node2 = Node()				#노드2 노드 생성
+node2.data = '정선희'		  #데이터는 정선희
+node1.link = node2			#노드1링크 >> 노드2 연결
 
 node3 = Node()
 node3.data = '서신애'
-node2.link = node3
+node2.link = node3	
 
 node4 = Node()
 node4.data = '떡대'
@@ -139,20 +139,20 @@ node5.data = '장첸'
 node4.link = node5
 
 # 삽입
-newNode = Node()
-newNode.data = '몽골'
-newNode.link = node2.link
-node2.link = newNode
+newNode = Node()			 #새로운 노드 생성(newNode)
+newNode.data = '몽골'		    
+newNode.link = node2.link	 #새로운 노드 링크 >> 노드2의 링크
+node2.link = newNode		 #노드2의 링크는 새로운 노드로 해서 삽입 후 연결 완료
 
 #삭제
-node2.link = node3.link
-del(node3)
+node2.link = node3.link		 #노드2 링크 >> 노드3 링크로 연결 후 
+del(node3)					 #노드3 삭제 완료
 
 #출력부분
-current = node1
-print(current, data, end = ' ')
-while current.link != None:
-    current = current.link
-    print(current, data, end = ' ')
+current = node1				 			#노드1을 처음으로
+print(current, data, end = ' ')			#노드1과 데이터 출력 (띄어쓰기)
+while current.link != None:				#current링크가 공백이 아닌 동안
+    current = current.link				#current는 current의 링크 
+    print(current, data, end = ' ')		
 ```
 
