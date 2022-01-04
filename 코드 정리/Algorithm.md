@@ -156,3 +156,97 @@ while current.link != None:				#current링크가 공백이 아닌 동안
     print(current, data, end = ' ')		
 ```
 
+### 함수 사용
+
+```python
+# 함수/클래스 선언부
+class Node():
+    def __init__(self):
+        self.data = None
+        self.link = None
+        
+def printNode(start):
+    current = start
+    print(current, data, end = ' ')
+    while current.link != None:
+        current = current.link
+        print(current, data, end = ' ')
+    print()
+    
+def insertNode(findData, insertData):
+    global memory, head, current, pre
+    if head.data == findData : 		#첫 노드 앞에 삽입할 때
+        node = Node()
+        node.data = insertData
+        node.link = head
+        head = node
+        memory.append(node)
+        return
+    #사나 앞에 솔라를 삽입
+    current = head
+    while current.link != None:
+        pre = current
+        current = current.link
+        if current.data == insertData:
+            node = Node()
+            node.data = insertData
+            node.link = current
+            pre.link = node
+            memory.append(node)
+            return
+    #마지막에 추가할 때(= 삽입할 이름이 존재하지 않을 때)
+    node = Node()
+    node.data = insertData
+    current.link = node
+    memory.append(node)
+    return
+
+del deleteNode(deleteData):
+    global memory, head, current, pre
+    #첫 노드 삭제
+    if deleteData == head.data:
+        current = head
+        head = head.link
+        del(current)
+        return
+    #첫 노드 외의 노드 삭제
+    current = head
+    while current.link != Node:
+        pre = current
+        current = current.link
+        if current.data == deleteData:
+            pre.link = currnet.link
+            del(current)
+            return
+        
+del findNode(findData):
+    global memory, head, current, pre
+    current = head
+    if current.data == findData:
+        return current
+    while current.link != None:
+        current = current.link
+        if current.data == findData:
+            return current
+    return Node()
+
+#전역 변수
+memory = []
+head, current, pre = None, None, None
+dataArray = ['이미쉘', '정선희', '서신애', '떡대', '장첸']
+
+#메인 코드부
+node = Node()	#첫 노드
+node.data = dataArray[0]
+head = node
+memory.append(node)
+
+for data in dataArray[1:]:
+    pre = node
+    node = Node()
+    node.data = data
+    pre.link = node
+    memory.append(Node)
+printNode(head)
+```
+
