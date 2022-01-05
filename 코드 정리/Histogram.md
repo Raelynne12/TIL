@@ -53,6 +53,36 @@ plt.show()								#출력
  ```python
  #8월과 1월의 최고기온과 최저기온 모두 나타내기
  
+ import csv
+ import matplotlib.pyplot as plt
  
+ f = open('./seoul_book.csv', encoding = 'cp949')
+ data = csv.reader(f)
+ next(data)
+ aug_high = []		#8월 최고기온 리스트
+ aug_low = []		#8월 최저기온 리스트
+ jan_high = []		#1월 최고기온 리스트
+ jan_low = []		#1월 최저기온 리스트
+ 
+ for row in data:
+     month = row[0].split('-')[1]
+     if row[-1] != '' and row[-2] != '':
+         if month == '08':
+             aug_high.append(float(row[-1]))
+             aug_low.append(float(row[-2]))
+         elif month == '01':
+             jan_high.append(float(row[-1]))
+             jan_low.append(float(row[-2]))
+             
+ plt.hist(aug_high, bins = 100, color = 'lightgreen', label = "August_High")
+ plt.hist(aug_low, bins = 100, color = 'green', label = 'August_Low')
+ plt.hist(jan_high, bins = 100, color = 'lightblue', label = 'January_High')
+ plt.hist(jan_low, bins = 100, color = 'blue', label = 'January_Low')
+ plt.legend()
+ plt.show()
  ```
+
+![image-20220105223950112](Histogram.assets/image-20220105223950112.png)
+
+
 
