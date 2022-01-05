@@ -22,6 +22,39 @@ plt.hist(dice, bins = 6)				#히스토그램 (bins는 막대 개수)
  
 
 ```python
+import csv
+f =  open('./seoul_book.csv', encoding = 'cp949')
+data = csv.reader(f)
+next(data)
+result = []
+
+for row in data:
+  if row[-1] != '':
+    result.append(float(row[-1]))
+
+import matplotlib.pyplot as plt
+plt.hist(result, bins = 100, color = 'r')
+```
+
+![image-20220105224140349](Histogram.assets/image-20220105224140349.png)
+
+
+
+```python
+plt.figure(dpi = 300)
+plt.hist(result, bins = 1000, color = 'red')
+plt.show()
+```
+
+![image-20220105224158694](Histogram.assets/image-20220105224158694.png)
+
+
+
+---
+
+### 데이터 이용해서 히스토그램 그리기
+
+```python
 #8월과 1월 데이터 출력(최고 기온)
 
 import csv
