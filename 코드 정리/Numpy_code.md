@@ -73,5 +73,49 @@ print(np.random.choice(6,10, p = [0.1,0.2,0.3,0.1,0.2,0.1])) #확률 설정 >> �
 
 ```python
 #버블 차트
+import matplotlib.pyplot as plt
+import random
+
+x = []
+y = []
+size = []
+
+for i in range(200):
+    x.append(random.randint(10,100))	#10~100 사이 랜덤 정수 x에 추가
+    y.append(random.randint(10,100))
+    size.append(random.randint(10,100))
+    
+plt.scatter(x,y, s = size, c = x, cmap = 'jet', alpha = 0.7)
+plt.colorbar()
+plt.show()
+```
+
+![image-20220106232029675](Numpy_code.assets/image-20220106232029675.png)
+
+
+
+```python
+#numpy 활용
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.random.randint(10, 100, 200)  # 10 이상 100 까지 정수 200개
+y = np.random.randint(10, 100, 200)
+size = np.random.rand(200) * 100 # 0에서 1 사이의 200개의 실수(float)를 만들고 * 100
+    
+plt.scatter(x, y, s=size, c=x, cmap='jet', alpha=0.7)
+plt.colorbar()
+plt.show()
+```
+
+![image-20220106232405663](Numpy_code.assets/image-20220106232405663.png)
+
+
+
+---
+
+### numpy array 생성
+
+```
 ```
 
