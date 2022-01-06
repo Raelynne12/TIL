@@ -223,18 +223,21 @@ print(a[mask1*mask2])		#두 조건 모두 참인 거
 #Bubble chart
 import matplotlib.pyplot as plt
 import numpy as np
+
 x = np.random.randint(-100, 100, 1000)
 y = np.random.randint(-100,100, 1000)
-size = np.random.rand(1) * 100
+
 mask1 = abs(x) > 50		#절대값이 50보다 크면 거르기
 mask2 = abs(y) > 50
 
 x = x[mask1+mask2]
 y = y[mask1+mask2]
 
+size = np.random.rand(len(x)) * 100
+
 plt.scatter(x, y, s = size, c = x, cmap = 'jet', alpha = 0.7)
 plt.colorbar()
 plt.show()
 ```
 
-![image-20220106234906096](Numpy_code.assets/image-20220106234906096.png)
+![image-20220106235309838](Numpy_code.assets/image-20220106235309838.png)
