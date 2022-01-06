@@ -126,3 +126,41 @@ plt.barh(range(101), result)
 ---
 
 ## 성별 인구 구조 시각화
+
+> 성별 인구구조 항아리 모형 그리기
+
+
+
+```python
+import csv
+f = open('./gender.csv', encoding = 'cp949')
+data = csv.reader(f)
+
+m = []			#남자 담을 리스트
+f = []			#여자 담을 리스트
+
+gender = input('성별 분포를 보기 원하는 지역을 입력 : ')
+
+for row in data:
+  if gender in row[0]:				#입력받은 지역이 있으면
+    for i in row[3:104]:			
+      m.append(-int(i))				#-로 표시해서 겹치지 않게 / 남자 리스트에 추가(정수)
+    for i in row[106:]:
+      f.append(int(i))				#여자 리스트에 추가(정수형으로)
+
+#print(m)
+#print(f)
+
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')						#ggplot으로
+plt.figure(figsize = (10,5), dpi=300)
+plt.title('Male and Female')
+plt.rc('font', family ='Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+plt.barh(range(101), m, label = 'Male')
+plt.barh(range(101), f, label = 'Female')
+plt.legend()
+plt.show()
+```
+
+![image-20220106222854842](Population_Density.assets/image-20220106222854842.png)
