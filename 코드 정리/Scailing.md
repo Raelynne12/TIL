@@ -68,3 +68,49 @@ df2.min()		#0.0
 df2.max()		#1.0
 ```
 
+```python
+#train/test로 분리되어진 데이터를 표준화
+#70% train data / 30% test data로 나누
+
+from sklearn.model_selection import train_test_split
+train_x, test_x, train_y, test_y = train_test_split(iris_x, iris_y)
+```
+
+```python
+# 1. train_x, test_x를 동일한 기준으로 스케일링
+
+m_sc1 = minmax()
+m_sc1.fit(train_x)		#test데이터가 들어가면 안됨!
+
+train_m_sc1 = m_sc1.transform(train_x)
+test_m_sc1 = m_sc1.transform(test_x)
+
+#훈련용 데이터에 적용
+train_m_sc1.min()		#array([0., 0., 0., 0.])
+train_m_sc1.max()		#array([1., 1., 1., 1.])
+
+#테스트(검증용) 데이터에 적용
+test_m_sc1.min()	#array([-0.02857143,  0.08333333,  0.01694915,  0.        ])  #0이 아님
+test_m_sc1.max()	#array([0.94444444, 0.79166667, 0.96610169, 0.95833333])  
+#1이 아님
+```
+
+```python
+# 2. 서로 다른 기준으로 스케일링
+
+m_sc2 = minmax()
+m_sc3 = minmax()
+
+m_sc2.fit(train_x)
+m_sc3.fit(test_x)	#test data도 fit >> min을 0, max를 1
+
+train_m_sc2 = m_sc2.transform(train_x)
+test_m_sc3 = m_sc3.transform(test_x)
+
+train_m_sc2.min()		#0.0
+train_m_sc2.max()		#1.0
+
+test_m_sc3.min()		#0.0
+test_m_sc3.max()		#1.0
+```
+
