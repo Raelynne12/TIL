@@ -105,12 +105,45 @@ m_sc2.fit(train_x)
 m_sc3.fit(test_x)	#test data도 fit >> min을 0, max를 1
 
 train_m_sc2 = m_sc2.transform(train_x)
-test_m_sc3 = m_sc3.transform(test_x)
+test_m_sc2 = m_sc3.transform(test_x)
 
 train_m_sc2.min()		#0.0
 train_m_sc2.max()		#1.0
 
-test_m_sc3.min()		#0.0
-test_m_sc3.max()		#1.0
+test_m_sc2.min()		#0.0
+test_m_sc2.max()		#1.0
 ```
 
+
+
+한 화면에 여러 개 그래프 그리려면 figure 함수 써서 객체를 만든 후 subplot을 만들면 됨
+
+scatter = 산점도
+
+```python
+# scaling 시각화
+# 1) figure, subplot 생성
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots(1,3)
+
+# 2) 원본 data의 산점도
+import mglearn
+ax[0].scatter(train_x[:,0], train_x[:,1], c=mglearn.cm2(0), label='train')
+ax[0].scatter(test_x[:,0], test_x[:,1], c=mglearn.cm2(1), label='test')
+ax[0].legend()
+ax[0].set_title('raw data')
+
+#3) 올바른 스케일링 data의 산점도(train_x_sc1, test_x_sc1)
+ax[1].scatter(train_sc1[:,0], train_sc[:,1], c = mglearn.cm2(0), label = 'train')
+ax[1].scatter(test_sc1[:,0], test_sc1[:,1], c=mglearn.cm2(1), label='test')
+ax[1].legend()
+ax[1].set_title('good scaing data')
+
+# (4) 잘못된 스케일링 data의 산점도(train_x_sc2, test_x_sc2)
+ax[2].scatter(train_sc_2[:,0], train_sc_2[:,1], c=mglearn.cm2(0), label='train')
+ax[2].scatter(test_sc_2[:,0], test_sc_2[:,1], c=mglearn.cm2(1), label='test')
+ax[2].legend()
+ax[2].set_title('bad scaling data')
+```
+
+![image-20220108164458554](Scailing.assets/image-20220108164458554.png)
