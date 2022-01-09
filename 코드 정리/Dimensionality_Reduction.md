@@ -123,3 +123,96 @@ m_pca3.explained_variance_ratio_          #array([0.72962445, 0.22850762, 0.0366
 sum(m_pca3.explained_variance_ratio_)     #0.9948212908928452
 ```
 
+```
+! knn 최근접이웃 !
+
+지도 학습 알고리즘 중 하나
+굉장히 직관적이고 간단
+데이터의 주변 데이터를 살펴본 뒤 더 많은 데이터가 포함되어있는 범주로 분류
+k를 어떻게 정하냐에 따라 결과값이 바뀔 수 있음
+k가 너무 작아도 커도 안됨 default값은 5(일반적으로 홀수로 씀)
+
+훈련이 따로 필요없음
+다른 모델들은 훈련데이터를 기반으로 모델 만들고 테스트 데이터로 테스트
+>> 하지만 knn은 훈련 데이터를 저장하는 게 훈련의 전부 
+
+데이터와 데이터 사이의 거리를 구해야 함
+방식 >> 유클리드 거리 / 맨해튼 거리 (얘네는 나중에 개념정리에서 따로 정리할 예정)
+```
+
+
+
+----
+
+### 다차원 척도법(MDS)
+
+```python
+# 다차원 척도법(MDS)
+# 개체들 사이 유사성, 비유사성을 거리로 측정해서 2차원/3차원 공간상에 점으로 표현
+# 개체들 사이의 집단화를 시각적으로 표현하는 분석방법
+# 차원 축소과정에서 발생하는 오차(stress)정의
+# stress 크기로 차원 축소에 대한 적합도 판단
+# stress( 0 : 완벽, 5 : 좋음, 10 : 보통, 20 : 나쁨)
+
+from sklearn.mainfold import MDS
+```
+
+```python
+# 1) data loading
+from sklearn.datasets import load_iris
+
+iris_x = load_iris()['data']
+iris_y = load_iris()['target']
+
+iris_x   # << 변수가 4개 = 4차원
+```
+
+```python
+# 2) scailing 정규화
+from sklearn.preprocessing import StandardScaler as standard
+m_sc = standard()
+m_sc.fit_transform(iris_x)
+iris_x_sc = m_sc.fit_transform(iris_x)	#PCA 적용 전 스케일링 변환
+
+m_mds2 = MDS(n_components = 2)
+m_mds3 = MDS(n_components = 3)
+```
+
+```python
+# 3) 데이터 변환
+iris_x_mds1 = m_mds2.fit_transform(iris_x_sc)
+iris_x_mds2 = m_mds3.fit_transform(iris_x_sc)
+```
+
+```python
+# 4) 유도된 인공변수 확인
+m_mds2.stress_		#235.99503699761914 << 적합도 평가(.stress_)
+m_mds2.embedding_	#변환된 데이터셋 값
+
+points = m_mds.embedding_  #변환된 데이터셋 값 points 변수에 담기
+```
+
+```python
+# 5) 크루스칼 스트레스 계산
+import numpy as np
+from sklearn.metrics import euclidean_distances
+
+DE = euclidean_distances(points)	#변환된 값의 거리
+DA = euclidean_distances(iris_x)	#실제 거리
+
+stress = 0.5*np.sum((DE-DA)**2)					#3520.2388671697586
+stress1 = np.sqrt(stress / (0.5*np.sun(DA**2))) #0.18570605767068438
+stress1
+```
+
+```python
+# 3차원
+m_mds3.stress_										#8.031072009566191
+m_mds3.embedding_
+points3 = m_mds3.embedding_
+DE = euclidean_distances(points3)
+DA = euclidean_distances(iris_x)
+stress = 0.5*np.sum((DE-DA)**2)						#3382.670413067615
+stress2 = np.sqrt(stress / (0.5*np.sum(DA**2)))		#0.18191231566817634
+```
+
