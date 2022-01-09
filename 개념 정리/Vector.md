@@ -352,3 +352,27 @@ ex) 벡터(3,4), (5,3), (8,7)이 선형 종속인지, 선형 독립인지
 
 
 
+**랭크**
+
+\- 행렬 a에서 선행 독립인 행 혹은 열의 개수
+
+\- rank(A) / rk(A)
+
+\- 열랭크와 행랭크가 항상 같으면 >> 랭크 정리(rank theorem)
+
+\-![image-20220109130827968](Vector.assets/image-20220109130827968.png)
+
+```python
+import numpy as np
+
+#matrix_rank() 함수로 rank계산
+x1 = np.array([[2,7], [5,1]])
+np.linalg.matrix_rank(x1)		#2
+```
+
+
+
+---
+
+### 벡터 덧셈과 뺄셈
+
