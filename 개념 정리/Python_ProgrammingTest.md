@@ -58,3 +58,22 @@
 
 
 
+### 9) 
+
+
+
+
+
+
+
+
+
+import pandas as pd
+import numpy as np
+
+sample_1 = pd.read_excel('./files/sample_1.xlsx',
+                        header = 1,
+                        usecols = 'A:C',
+                        skipfooter = 2,
+                        names = ['A', 'B','C'])
+sample_1
