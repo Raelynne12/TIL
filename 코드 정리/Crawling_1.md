@@ -183,3 +183,150 @@ with pd.ExcelWriter('./files/multiple_sheet.xlsx') as writer:	#한 파일에 여
                           index = False, na_rep= 'NaN')			#인덱스 없앰
 ```
 
+```python
+#pivot table
+sample_pivot = sample.pivot_table(
+		values = '입국객수',
+		index = '국적명',
+		columns = '기준년월',
+		aggfunc = 'mean')	#mean이 기본값
+sample_pivot
+```
+
+![image-20220113000127012](Crawling_1.assets/image-20220113000127012.png)
+
+```python
+import matplotlib.pyplot as plt
+type(sample_pivot)
+sample_pivot.plot(kind = 'bar',
+                 figsize = (10,8),
+                 rot = 0)
+plt.rc('font', family = 'Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+plt.xlabel('')
+plt.xticks(size = 20)
+plt.yticks(size = 15)
+plt.show()
+```
+
+![image-20220113000542312](Crawling_1.assets/image-20220113000542312.png)
+
+```python
+sample.groupby('성별').mean()
+#
+#입국객수
+#성별	
+#남성	102729.4
+#여성	167436.2
+sample.groupby('성별')['입국객수'].mean()
+#성별
+#남성    102729.4
+#여성    167436.2
+#Name: 입국객수, dtype: float64
+```
+
+
+
+---
+
+### 웹크롤링
+
+`!pip install selenium` << 먼저 해야
+
+```python
+from selenium import webdriver
+webdriver __version__
+#4.1.0
+
+from selenium.webdriver.chrom.service import Service	#옛날처럼 그냥 service만 하면 안됨
+service = Service('../chromedriver/chromedriver.exe')
+driver = webdriver.Chrome(service = service)	#앞 service는 변수 / 뒤 service는 위에 있는 service
+```
+
+```python
+html = driver.page_source
+html = '''
+<html>
+    <head>
+    </head>
+    <body>
+        <h1> 우리동네시장</h1>
+            <div class = 'sale'>
+                <p id='fruits1' class='fruits'>
+                    <span class = 'name'> 바나나 </span>
+                    <span class = 'price'> 3000원 </span>
+                    <span class = 'inventory'> 500개 </span>
+                    <span class = 'store'> 가나다상회 </span>
+                    <a href = 'http://bit.ly/forPlaywithData' > 홈페이지 </a>
+                </p>
+            </div>
+            <div class = 'prepare'>
+                <p id='fruits2' class='fruits'>
+                    <span class ='name'> 파인애플 </span>
+                </p>
+            </div>
+    </body>
+</html>
+'''
+html
+#"\n<html>\n    <head>\n    </head>\n    <body>\n        <h1> 우리동네시장</h1>\n            <div class = 'sale'>\n                <p id='fruits1' class='fruits'>\n                    <span class = 'name'> 바나나 </span>\n                    <span class = 'price'> 3000원 </span>\n                    <span class = 'inventory'> 500개 </span>\n                    <span class = 'store'> 가나다상회 </span>\n                    <a href = 'http://bit.ly/forPlaywithData' > 홈페이지 </a>\n                </p>\n            </div>\n            <div class = 'prepare'>\n                <p id='fruits2' class='fruits'>\n                    <span class ='name'> 파인애플 </span>\n                </p>\n            </div>\n    </body>\n</html>\n"
+```
+
+```python
+#!pip install bs4
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup(html, 'html.parser')	#html 문법에 맞게 잘 보이도록
+soup
+#<html>
+#<head>
+#</head>
+#<body>
+#<h1> 우리동네시장</h1>
+#<div class="sale">
+#<p class="fruits" id="fruits1">
+#<span class="name"> 바나나 </span>
+#<span class="price"> 3000원 </span>
+#<span class="inventory"> 500개 </span>
+#<span class="store"> 가나다상회 </span>
+#<a href="http://bit.ly/forPlaywithData"> 홈페이지 </a>
+#</p>
+#</div>
+#<div class="prepare">
+#<p class="fruits" id="fruits2">
+#<span class="name"> 파인애플 </span>
+#</p>
+#</div>
+#</body>
+#</html>
+```
+
+```python
+tags_span = soup.select('span')		#tag
+len(tags_span)					   #리스트로 길이가 5개
+type(tags_span)					   #bs4.element.ResultSet
+
+tags_p = soup.select('p')
+len(tags_p)
+tags_p
+
+soup.select('#fruits1')			#id 샵을 앞에 붙이면 됨
+
+#class
+soup.select('.price')			#dot을 앞에 붙이면 됨
+soup.select('.inventory')
+
+soup.select('#fruits1 > span.name')
+soup.select('div.sale > #fruits1 > span.name')
+soup.select('div.sale span.name')
+soup.select('div.sale > p.fruits > span.name')			
+#이 네 개 결과는 다 똑같음 >> 그냥 표현의 차이
+#[<span class="name"> 바나나 </span>] << 결과값
+```
+
+```python
+#네이버 홈페이지 접속해보기
+url = 'https://www.naver.com/'
+driver.get(url)
+```
+
