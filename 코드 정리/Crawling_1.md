@@ -170,3 +170,16 @@ sample_concat
 ```
 
 ![image-20220112233906539](Crawling_1.assets/image-20220112233906539.png)
+
+```python
+sample.to_excel('./files/sample_class.xlsx',
+               index = False,
+               na_rep = 'NaN',
+               sheet_name= '1일차')
+
+with pd.ExcelWriter('./files/multiple_sheet.xlsx') as writer:	#한 파일에 여러개
+    sample.to_excel(writer, sheet_name = 'my_sheet1'),
+    sample_1_code.to_excel(writer, sheet_name = 'my_sheet2',
+                          index = False, na_rep= 'NaN')			#인덱스 없앰
+```
+
