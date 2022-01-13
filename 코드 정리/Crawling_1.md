@@ -231,6 +231,16 @@ sample.groupby('성별')['입국객수'].mean()
 
 ### 웹크롤링
 
+> selenium 라이브러리의 webdriver를 활용해서 웹 브라우저 조작하고
+>
+> BeautifulSoup 라이브러리로 html 데이터에서 필요한 정보 가져오기
+
+`webdriver`  : 크롬이나 인터넷 익스플로러 등에서 사이트 접속, 버튼 클릭, 글자 입력과 같이 웹 브라우저에서 사람이 할 수 있는 일들을 코드로 제어할 수 있는 라이브러리 >> 사용하려면 드라이버 필요 >> 밑에서는 크롬드라이버 사용
+
+
+
+
+
 `!pip install selenium` << 먼저 해야
 
 ```python
@@ -328,5 +338,9 @@ soup.select('div.sale > p.fruits > span.name')
 #네이버 홈페이지 접속해보기
 url = 'https://www.naver.com/'
 driver.get(url)
+```
+
+```
+
 ```
 
