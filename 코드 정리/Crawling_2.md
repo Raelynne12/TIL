@@ -115,3 +115,24 @@ df_chart.to_Excel('./files/genie_class.xlsx',
                  sheet_name = 'genie top 50')
 ```
 
+
+
+---
+
+## 세 개 엑셀파일 합치기
+
+```python
+excel_names = ['./files/genie_class.xlsx',
+              './files/bugs_class.xlsx',
+              './files/melon_class.xlsx']		#세 개 파일 담은 리스트 excel_names
+
+append_data = pd.DataFrame()				   #데이터프레임 형식
+
+for name in excel_names:					   #세 개 파일 담은 리스트인 excel_names길이
+    pd_data = pd.read_excel(name)				#엑셀파일을 읽는 함수 부르는 pd_data
+    append_data = append_data.append(pd_data)	 #pd_data를 append_data에 계속 추가(append)
+    
+append_data.to_excel('./files/append_data_class.xlsx',	#그 append_data를 엑셀파일로 저장
+                    index = False)
+```
+
