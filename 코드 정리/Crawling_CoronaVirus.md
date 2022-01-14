@@ -4,7 +4,7 @@
 >
 > \>> 나라별 관광객비율과 전체비율을 얻고 10년간의 관광 데이터 모아서 엑셀 파일에 저장하기
 >
-> \>> 히트맵으로 만들기
+> \>> 시각화 & 히트맵으로 만들기
 
 
 
@@ -93,6 +93,103 @@ kto_201901_country_newindex['전체비율(%)'] = round(kto_201901_country_newind
 
 
 ```python
-def path
+def path(yy,mm):
+    #엑셀 파일 경로 지정
+    file_path = './files/kto_{}{}.xlsx'.format(yy,mm) #년도랑 월 받아서 kto_yymm인 파일 경로
+    
+    #엑셀 파일 불러오기
+    kto = pd.read_excel(file_path,
+                       header = 1,
+                       skipfooter = 4,
+                       usecols = 'A:G')
+    
+    #[기준년월] 컬럼 추가
+    kto['기준년월'] = '{}-{}'.format(yy,mm)
+    
+    #국적 컬럼에서 대륙 제거하고 국가만 남기기(필요없는 행 삭제)
+    ignore = ['아시아주','미주','구주','대양주','아프리카주','기타대륙','교포소계'] #필요없는 행들
+    condition = (kto['국적'].isin(ignore) == False) #ignore제외한 행들만 condition에
+    kto_country = kto[condition].reset_index(drop = True) #제외한 애들로 리셋 인덱스해서 새로
+    
+    #대륙 컬럼 추가
+    continents = ['아시아'] * 25 + ['아메리카'] * 5 + ['유럽'] * 23 + ['대양주'] * 3 + ['아프리	카'] * 2 + ['기타대륙'] + ['교포']  #해당 대륙들 숫자 세서 나열
+    kto['대륙'] = continents  #대륙컬럼에 나열된 리스트 추가
+    
+    #국가별 관광객비율 컬럼 추가
+    kto_country['관광객비율(%)'] = round(kto['관광'] / kto_country['계'] * 100, 1)
+    
+    #전체 비율 컬럼 추가
+    tour_sum = sum(kto_country['관광'])	#모든 국가들의 관광객수 더해서 tour_sum에
+    kto_country['전체비율(%)'] = round(kto['관광'] / tour_sum * 100, 1)
+    
+    #결과 출력
+    return(kto_country)  #모든 것들을 다 저장한 kto_country 출력
+```
+
+```python
+#잘 나오는지 확인
+kto_201812 = path(2018,12)
+kto_201812.head()
+```
+
+![image-20220114174124047](Crawling_CoronaVirus.assets/image-20220114174124047.png)
+
+```python
+#반복문을 사용해서 여러 엑셀파일을 가져와서 하나로 합치기(def)
+pf = DataFrame() #빈 데이터프레임 만들기(표로 작성해야 하니까 리스트말고 데이터프레임)
+
+for yy in range(2010, 2021):	#년도 반복문이니까 2010부터 2020까지
+    for mm in range(1, 13):		#월 반복문이니까 1부터 12까지
+        try:					#시도해봐
+            temp = path(str(yy), str(mm).zfill(2))	#path함수에 두 개 
+            #zfill(n) << n칸으로 채우기 << 월이 한 자리수가 아닌 두 자리수로 나와야 하기 때문에
+            pf = pf.append(temp, ignore_index = True) #pf에 추가(temp를, 인덱스 무시)
+        except:
+            pass	#2020년 6월자료는 없기 때문에 try except구문이 없으면 오류남
+pf.head()
+```
+
+![image-20220114174848073](Crawling_CoronaVirus.assets/image-20220114174848073.png)
+
+```python
+#하나의 엑셀파일로 저장하기
+pf.to_excel('./files/kto_total.xlsx',
+           index = False)	#인덱스 열없이 파일변환
+```
+
+
+
+---
+
+### 국적별로 데이터 나눠서 따로 엑셀파일 저장하기
+
+```python
+pf_list =pf['국적'].unique()	#국적만 따로 빼
+
+for l in pf_list:
+    condition = (pf['국적'] == l)
+    pf_filter = pf[condition]	#한 국적만 뽑아서
+    file_path = './files/[국적별 관광객 데이터] {}.xlsx'.format(l)	#파일 경로 지정
+    df_filter.to_excel(file_path, index = False)	#지정한 파일경로에 df_filter 
+```
+
+
+
+
+
+---
+
+### 크롤링한 정보 가지고 중국 관광객수의 추이를 나타내는 시각화 그래프 나타내기
+
+```python
+from matplotlib import rc, font_manager  #한글 폰트
+import matplotlib.pyplot as plt
+plt.rc('font', family = 'Malgun Gothic')	#한글 폰트
+plt.rcParams['axes.unicode_minus'] = False	#마이너스값 표시
+import seaborn
+import pandas as pd
+```
+
+```
 ```
 
