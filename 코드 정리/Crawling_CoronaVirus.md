@@ -3,6 +3,8 @@
 > 한국 관광 데이터랩에서 방한 외래관광객 데이터자료(엑셀)을 불러와서 크롤링 후 원하는 데이터 얻기
 >
 > \>> 나라별 관광객비율과 전체비율을 얻고 10년간의 관광 데이터 모아서 엑셀 파일에 저장하기
+>
+> \>> 히트맵으로 만들기
 
 
 
@@ -62,5 +64,35 @@ kto_201901_country_newindex.head()
 ```python
 #관광객비율에 대해 내림차순으로 정렬
 kto_201901_country_newindex.sort_values(by = '관광객비율(%)', ascending = False,inplace = False)		#inplace >> True로 하면 데이터 저장되는 거
+
+#대륙별 관광객비율 pivot_table로 만들어보기
+kto_201901_country_newindex.pivot_table(values = '관광객비율(%)',
+                                       index = '대륙',
+                                       aggfunc = 'mean')
+```
+
+![image-20220114160531576](Crawling_CoronaVirus.assets/image-20220114160531576.png)
+
+```python
+#전체비율 열 추가하기
+trouist_sum = kto_201901_country_newindex['관광'].sum()
+#얘는 numpy int형태 / sum()을 밖에 쓰면 그냥 int형으로 나옴
+kto_201901_country_newindex['전체비율(%)'] = round(kto_201901_country_newindex['관광'] / tourist_sum * 100, 1)
+```
+
+
+
+여기까지가 기본 데이터 크롤링 방법(파일 한 개)
+
+---
+
+### 2010년부터 2020년까지 자료를 한 번에 읽어서 크롤링하기(여러 엑셀파일 크롤링)
+
+> def 이용해서 반복되는 작업들 한 번에
+
+
+
+```python
+def path
 ```
 
