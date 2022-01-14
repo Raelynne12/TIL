@@ -186,10 +186,34 @@ from matplotlib import rc, font_manager  #한글 폰트
 import matplotlib.pyplot as plt
 plt.rc('font', family = 'Malgun Gothic')	#한글 폰트
 plt.rcParams['axes.unicode_minus'] = False	#마이너스값 표시
-import seaborn
+import seaborn		#데이터 시각화 라이브러리
 import pandas as pd
 ```
 
 ```
+! seaborn !
+
+matplotlib을 기반으로 만들어졌지만, 색상 테마와 다양한 통계용 차트 기능이 추가되어있어서 조금 더 까리하다.
 ```
 
+```python
+df = pd.read_excel('./files/kto_total.xlsx')
+df_filter = df[df['국적'] == '중국']
+df_filter
+```
+
+![image-20220114230523890](Crawling_CoronaVirus.assets/image-20220114230523890.png)
+
+```python
+# 이 데이터를 가지고 그래프로 시각화하기
+plt.figure(figsize = (15,6))    #그래프 사이즈
+plt.plot(df_filter['기준년월'], df_filter['관광'], color = 'hotpink')	
+#x축은 기준년월, y축은 관광, 색은 핫핑크색(헤헷)
+plt.title('중국 관광객 추이')	#제목
+plt.xlabel('기준년월')		#x축은 기준년월로 레이블
+plt.ylabel('관광객수')		#y축은 관광객수로 레이블
+plt.xticks(['2010-01','2011-01','2012-01','2013-01','2014-01','2015-01','2016-01','2017-01','2018-01','2019-01','2020-01'])	#얘를 하는 이유는 자료를 더 깔끔하게 보기 위해서(안하면 지저분)
+plt.show()
+```
+
+![image-20220114230845767](Crawling_CoronaVirus.assets/image-20220114230845767.png)
