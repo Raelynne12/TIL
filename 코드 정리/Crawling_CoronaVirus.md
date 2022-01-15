@@ -217,3 +217,9 @@ plt.show()
 ```
 
 ![image-20220114230845767](Crawling_CoronaVirus.assets/image-20220114230845767.png)
+
+
+
+---
+
+ 히트맵은 다음주에...
