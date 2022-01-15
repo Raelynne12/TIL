@@ -147,8 +147,8 @@ while True:
         break
 
     else:
-        eng = input_word.split(',')[0]
-        kor = input_word.split(',')[1]
+        eng = input_word.split(',')[0]  #쉼표 앞 eng
+        kor = input_word.split(',')[1]  #쉼표 뒤 kor
         dict_word[eng] = kor    #key = value
     
 dict_word
