@@ -57,6 +57,62 @@ def is_prime(n):
 is_prime(17)
 
 
+# In[14]:
+
+
+#위치인수
+def greet(name, msg):
+    print('hi', name, msg)
+    
+greet('friend','long time no see')
+
+
+# In[16]:
+
+
+#디폴트인수
+def greet(name, msg = '오랜만이야'): #1번째에 넣으면 안됨 >> 기본 인수 다 쓴 뒤
+    print('hi', name, msg)
+    
+greet('friend')
+greet('friend','long time no see')
+
+
+# In[18]:
+
+
+#키워드인수
+def get_minus(x,y,z):
+    return x-y-z
+print(get_minus(5,15,10))
+print(get_minus(5, z = 15, y = 10)) #순서 바꿔서 가능 >> 얘도 기본인수 다 쓴 뒤
+
+
+# In[19]:
+
+
+#가변인수
+def average(args):
+    return sum(args) / len(args)
+average([1,2,3])
+
+
+# In[20]:
+
+
+#매개변수에 * 붙이면 여러 개 인수를 하나의 튜플로 받음
+def average(*args):
+    return sum(args) / len(args)
+
+average(1,2,3)
+
+
+# In[21]:
+
+
+print(1,2,3, sep = '@')
+
+
 # In[ ]:
 
 
