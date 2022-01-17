@@ -222,4 +222,85 @@ plt.show()
 
 ---
 
- 히트맵은 다음주에...
+### 히트맵(Heatmap)
+
+> 중국 관광객 변화를 피벗테이블로 만든 후, 히트맵으로 시각화해보기
+
+
+
+```python
+pf_pivot = pf_filter.pivot_table(values = '관광',
+                                index = '년도',
+                                columns = '월',
+                                afffunc = 'sum')
+pf_pivot
+```
+
+![image-20220117195009676](Crawling_CoronaVirus.assets/image-20220117195009676.png)
+
+(11,12월은 잘림 ㅎㅎ)
+
+```python
+#히트맵으로 만들어보기
+import seaborn as sns
+plt.figure(figsize = (12,8))
+sns.heatmap(pf_pivot,
+           annot = True,  #칸마다 숫자써지게
+           fmt = '.0')    #숫자로(소수점을)
+plt.show()
+```
+
+![image-20220117195153017](Crawling_CoronaVirus.assets/image-20220117195153017.png)
+
+```python
+#중국, 일본, 대만, 미국, 홍콩 관광객 히트맵 만들어보기
+for c in c_list:
+    condition = pf['국적'] == c
+    pf_filter = pf[condition]
+    pf_pivot = pf_filter.pivot_table(values = '관광',
+                                    index = '년도',
+                                    columns = '월')
+```
+
+
+
+
+
+---
+
+### 히트맵 작성법
+
+```python
+flights = sns.load_dataset('flights')
+flights_pivot = flights.pivot_table(values = 'passengers',
+                                   index = 'year',
+                                   columns = 'month')
+flights_pivot
+```
+
+![image-20220117195533403](Crawling_CoronaVirus.assets/image-20220117195533403.png)
+
+```python
+plt.pcolor(flights_pivot)
+plt.xticks(np.arange(0.5, len(flights_pivot.columns)), #0.5부터 컬럼 길이만큼인데 표시는 컬럼
+          flights_pivot.columns)
+plt.yticks(np.arange(0.5, len(flights_pivot.index)),
+          flights_pivot.index)
+plt.colorbar()
+plt.show()
+```
+
+![image-20220117195919437](Crawling_CoronaVirus.assets/image-20220117195919437.png)
+
+```python
+plt.figure(figsize = (12,8))
+sns.heatmap(flights_pivot,
+           annot = True,
+           fmt = 'd',   #d는 integer
+           cmap = 'RdYlGn_r',
+           annot_kws = {'size' : 10, 'color' : 'black'}) #딕셔너리 형태로 만들어야 함
+plt.title('heatmap', fontsize = 10)
+plt.show()
+```
+
+![image-20220117200131330](Crawling_CoronaVirus.assets/image-20220117200131330.png)
