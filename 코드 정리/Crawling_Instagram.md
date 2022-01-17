@@ -102,7 +102,13 @@ def get_content(driver):
     except:  #만약 장소가 안쓰여있으면
         place = ''
     
-    data = [content, date, like, place, tags]
-    return(data)
+    data = [content, date, like, place, tags]  #데이터 리스트 만들어서 넣기
+    return(data)  #함수 호출하면 이 데이터 리스트 나오게
+```
+
+```python
+#함 해봐
+mylist = get_content(driver)
+mylist
 ```
 
