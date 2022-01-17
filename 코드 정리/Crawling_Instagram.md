@@ -161,3 +161,27 @@ result_df.head()
 
 ![image-20220118005455816](Crawling_Instagram.assets/image-20220118005455816.png)
 
+```python
+#시간이 없어서 세 개 밖에 크롤링을 못해서 원래 있던 엑셀파일 불러와서 크롤링
+jeju_insta_df = pd.DataFrame()
+f_list = ['1_crawling_jejudoMatJip.xlsx', '1_crawling_jejudoGwanGwang.xlsx',
+         '1_crawling_jejuMatJip.xlsx', '1_crawling_jejuYeoHang.xlsx']
+for fname in f_list:
+    fpath = './files/' + fname  #이 위치에 있는 거 읽어야 되니까
+    temp = pd.read_excel(fpath)
+    jeju_insta_df = jeju_insta_df.append(temp)
+```
+
+```python
+jeju_insta_df.shape  #(12780,5)
+
+#겹치는 내용 삭제
+jeju_insta_df.drop_duplicates(subset = ['content'], inplace = True) #content같으면 drop
+jeju_insta_df.shape   #(8369,5) << 본문 내용이 같은 것들 삭제 후 남은 
+
+raw_total = jeju_insta_df.copy() #복사해놓고
+raw_total.columns #Index(['content', 'date', 'like', 'place', 'tags'], dtype='object')
+raw_total['tags']
+```
+
+![image-20220118010842114](Crawling_Instagram.assets/image-20220118010842114.png)
