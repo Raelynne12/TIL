@@ -112,3 +112,52 @@ mylist = get_content(driver)
 mylist
 ```
 
+```python
+#다음 페이지로 넘어가는 함수
+def move_next(driver):
+    right = driver.find_element(BymCSS_SELECT, 'div.l8mY4.feth3')
+    right.click()
+    time.sleep(3)
+```
+
+
+
+---
+
+```python
+#실제 정리본
+def insta_crawling(word, n):
+    url = insta_searching(word)
+    
+    driver.get(url)
+    time.sleep(3)
+    
+    select_first(driver)
+    time.sleep(3)
+    
+    results = []
+    
+    for i in range(n):
+        try:
+            data = get_content(driver)
+            results.append(data)
+            move_next(driver)
+            
+        except:
+            time.sleep(2)
+            move_next(driver)
+            
+    return(results)
+
+
+result_1 = insta_crawling('제주도맛집', 3) #알아서 옆으로 넘어가면서 데이터 정리됨
+result_1
+
+#result_1을 데이터 프레임으로 정리
+result_df = pd.DataFrame(result_1)
+result_df.columns = ['content', 'date', 'like','place','tags']
+result_df.head()
+```
+
+![image-20220118005455816](Crawling_Instagram.assets/image-20220118005455816.png)
+
