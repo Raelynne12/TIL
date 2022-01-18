@@ -145,6 +145,182 @@ travel_place_df.shape   #65개 없어짐 >> (188,5)
 #travel_place_df.head()
 ```
 
-```
+```python
+#엑셀파일로 저장하기
+travel_place_df.to_excel('./files/Jeju_Travel_For_Family.xlsx',
+                        index = False)
 ```
 
+```python
+raw_total = travel_place_df.copy()
+
+#해시태그 리스트로 만들기
+tags_total = []
+for tags in raw_total['tags']:
+    tags_list = tags[2:-2].split("', '")
+    for tag in tags_list:
+        tags_total.append(tag)
+tags_total
+```
+
+![image-20220118231341589](Crawling_Jeju_Family.assets/image-20220118231341589.png)
+
+여기에서
+
+![image-20220118231409963](Crawling_Jeju_Family.assets/image-20220118231409963.png)
+
+이렇게 나오게
+
+```python
+#태그 하나당 얼마나 언급됐는지
+from collections import Counter
+tag_counts = Counter(tags_total)
+tag_counts.most_common(50) #순위 50위
+
+#stopword
+STOPWORDS = ['#일상', '#선팔', '#제주자연눈썹', '#제주눈썹문신', '#소통', '#맞팔',
+             '#제주속눈썹', '#제주일상', '#제주도','#jeju','#반영구','#제주살이',
+             '#제주도민', '#여행스타그램', '#제주반영구', '#제주메이크업', '#남자옷',
+            '#맞팔','#jejuisland','#일상','#스톤패딩','#명품신발','#래플신발','#발리신발','#구찌신발',
+            '#커플신발','#로렉스시계','#태그호이어시계','#명품시계','#명품클러치','#보테가클러치',
+            '#구찌클러치','#남자쇼핑몰','#남친선물','#고야드지갑','#고야드클러치','#발렌시아가']
+tag_total_selected = []
+for tag in tags_total:
+    if not tag in STOPWORDS:
+        tag_total_selected.append(tag)
+tag_total_selected = Counter(tag_total_selected)
+tag_total_selected
+
+tag_count_df = pd.DataFrame(tag_total_selected.most_common(50))
+tag_count_df.columns = ['tags','count']
+tag_count_df['tags'].replace('','None', inplace = True)
+tag_count_df.dropna(subset = ['tags'], inplace = True)
+```
+
+![image-20220118231540209](Crawling_Jeju_Family.assets/image-20220118231540209.png)
+
+
+
+---
+
+### wordcloud로 시각화
+
+```python
+#wordcloud로 만들어보기
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+import platform
+
+if platform.system() == 'Windows':
+    font_path = 'C:/Windows/Fonts/malgun.ttf'
+    
+wordcloud = WordCloud(font_path = font_path,
+                     background_color = 'white',
+                     max_words = 100,
+                     relative_scaling = 0.3,
+                     width = 800,
+                     height = 400).generate_from_frequencies(tag_total_selected)
+
+plt.figure(figsize = (18,10))
+plt.imshow(wordcloud)
+plt.axis('off')
+```
+
+![image-20220118231628955](Crawling_Jeju_Family.assets/image-20220118231628955.png)
+
+
+
+---
+
+### mapping
+
+```python
+#크롤링한 장소 데이터들로 제주도 지도 맵 짜보기
+import requests
+def find_places(searching):
+    url = 'https://dapi.kakao.com/v2/local/search/keyword.json?query={}'.format(searching)
+    headers = {
+          'Authorization':'KakaoAK 자기 api'
+    }
+    places = requests.get(url, headers = headers).json()['documents']
+    place = places[0]
+    name = place['place_name']
+    x = place['x']
+    y = place['y']
+    
+    data = [name, x, y, searching]
+    
+    return(data)
+```
+
+```python
+location_counts = raw_total['place'].value_counts()
+location_counts_df = pd.DataFrame(location_counts)
+location_counts_df.to_excel('./files/Jeju_Travel_For_Family_Places.xlsx')
+locations = list(location_counts_df.index)
+```
+
+```python
+locations_inform = []
+for location in tqdm(locations):
+    try:
+        data = find_places(location)
+        locations_inform.append(data)
+        time.sleep(1)
+    except:
+        pass
+```
+
+```python
+locations_inform_df = pd.DataFrame(locations_inform)
+locations_inform_df.columns = ['name_official','경도','위도','name']
+locations_inform_df.to_excel('./files/Jeju_Trip_For_Map.xlsx',
+                            index = False)
+```
+
+```python
+#두 파일 합병시키기(merge)
+location_counts_df = pd.read_excel('./files/3_location_counts.xlsx', index_col = 0)
+location_inform_df = pd.read_excel('./files/3_3_locations.xlsx')
+
+location_counts_df.head()
+location_inform_df.head()
+
+location_data = pd.merge(location_inform_df, location_counts_df,
+                        how = 'inner',
+                        left_on = 'name_official',
+                        right_index = True)
+location_data
+```
+
+![image-20220118231922683](Crawling_Jeju_Family.assets/image-20220118231922683.png)
+
+```python
+from folium.plugins import MarkerCluster
+import folium
+locations = []
+names = []
+for i in range(len(location_data)):
+    data = location_data.iloc[i]
+    locations.append((float(data['위도']), float(data['경도'])))
+    names.append(data['name_official'])
+    
+Mt_Hanla = [33.362500,126.533694]
+map_jeju2 = folium.Map(location = Mt_Hanla,
+                     zoom_start = 11)
+tiles = ['stamenwatercolor', 'cartodbpositron', 
+         'openstreetmap', 'stamenterrain','cartodbdark_matter']
+
+for tile in tiles:
+    folium.TileLayer(tile).add_to(map_jeju2)
+
+market_cluster = MarkerCluster(locations = locations,
+                              popups = names,
+                              name = 'jeju',
+                              overlay = True,
+                              control = True).add_to(map_jeju2)
+folium.LayerControl().add_to(map_jeju2)
+map_jeju2
+```
+
+![image-20220118232002577](Crawling_Jeju_Family.assets/image-20220118232002577.png)
