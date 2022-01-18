@@ -60,7 +60,7 @@ content  #하면 본문 내용 나옴
 #해시태그
 import re
 tags = re.findall(r'#\w+', content) #본문 내용에서 하나 이상되는 문자들 뽑아라#
-tags = re.findall(r'#[^\s#,\\]+', content) #위에 + ^\/이런 거 없으면 나오게 하는
+tags = re.findall(r'#[^\s#,\\]+', content) #위에 + ^\/이런 거 없으면 나오게 하는 [] : or
 tags #하면 해시태그들 나옴
 
 #작성일자
@@ -185,3 +185,98 @@ raw_total['tags']
 ```
 
 ![image-20220118010842114](Crawling_Instagram.assets/image-20220118010842114.png)
+
+```python
+#[] ㄸㅔ기
+#(1)번 방법
+tags_total = []
+for tags in raw_total['tags']:
+    tags_ilst = tags[2:-2].split("', '")
+    
+for tag in tags_list:
+    tags_total.append(tag)
+    
+#(2)번 방법
+raw_total['tags'][1].str[2:-2]
+```
+
+```python
+#태그 하나당 얼마나 언급됐는지
+from collections import Counter
+tag_counts = Counter(tags_total)
+tag_counts
+
+#series로 만드는 방법(위에랑 똑같이)
+pd.Series(tags_total).value_counts()
+```
+
+![image-20220118092204423](Crawling_Instagram.assets/image-20220118092204423.png)
+
+```python
+tag_counts.most_common(50)  #순위 50위   << 쓸데없는 속눈썹 이런 해시태그들 제거
+
+STOPWORDS = ['#일상','#선팔', '#제주자연눈썹', '#제주눈썹문신', '#소통', '#맞팔', '#제주속눈썹', '#제주일상' ,'#제주도', '#jeju','#반영구','#제주살이', '#제주도민', '#여행스타그램', '#제주반영구' ,'#제주메이크업']
+tag_total_selected = []
+for tag in tags_total:
+    if not tag in STOPWORDS:
+        tag_total_selected.append(tag)
+        
+tag_total_selected = Counter(tag_total_selected)
+tag_total_selected.most_common(50)  #이제 다시 확인
+```
+
+![image-20220118092748686](Crawling_Instagram.assets/image-20220118092748686.png)
+
+```python
+#시각화하기
+import matplotlib.pyplot as plt
+from matplotlib import rc
+import sys  #에러났을 때 멈추는
+import seaborn as sns
+
+rc('font', family = 'Malgun Gothic')
+
+tag_count_df = pd.DataFrame(tag_total_selected.most_common(50))
+tag_count_df.columns = ['tags','count']
+tag_count_df.head()
+
+#블랭크가 있음 >> None으로
+tag_count_df['tags'].replace('','None', inplace = True)
+tag_count_df.dropna(subset = ['tags'], inplace = True)
+tag_count_df
+```
+
+![image-20220118093208788](Crawling_Instagram.assets/image-20220118093208788.png)
+
+```python
+#barplot
+plt.figure(figsize = (16,11))
+sns.barplot(x = 'count', y = 'tags',
+           data = tag_count_df)
+plt.show()
+```
+
+![image-20220118093319997](Crawling_Instagram.assets/image-20220118093319997.png)
+
+```python
+#wordcloud
+
+#pip install wordcloud
+from wordcloud import WordCloud
+import platform
+
+if platform.system() == 'Windows':
+    font_path = 'C:/Windows/Fonts/malgun.ttf'
+    
+wordcloud = WordCloud(font_path = font_path,
+                     background_color = 'white',
+                     max_words = 100,
+                     relative_scaling = 0.3,
+                     width = 800,
+                     height = 400).generate_from_frequencies(tag_total_selected)
+plt.figure(figsize = (18,10))
+plt.imshow(wordcloud)
+plt.axis('off')
+```
+
+![image-20220118093603629](Crawling_Instagram.assets/image-20220118093603629.png)
