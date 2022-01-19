@@ -79,3 +79,71 @@ seoul_starbucks_df.head()
 ```
 
 ![image-20220119223026495](Crawling_Starbucks.assets/image-20220119223026495.png)
+
+```python
+#엑셀파일로 저장
+seoul_starbucks_df.to_excel('./files/seoul_starbucks_list_mine.xlsx', index = False)
+```
+
+
+
+---
+
+```python
+#(2) 시군구마다의 인구
+#서울시 열린인구 데이터 ~ 에서 api가져오기
+import requests
+```
+
+```python
+SEOUL_API_AUTH_KEY = #자기 api키
+Open_API = 'GangseoListLoanCompany'
+url =  'http://openAPI.seoul.go.kr:8088/{}/json/{}/1/5/'.format(SEOUL_API_AUTH_KEY, Open_API)
+```
+
+```python
+result_dict = requests.get(url).json()
+result_dict #list_total_count >> 데이터 전체 개수 / code >> inf0-000나오는거면 정상
+result_dict['GangseoListLoanCompany']['list_total_count'] #접근방식은 이런 식
+```
+
+```python
+sample_df = pd.DataFrame(result_dict['GangseoListLoanCompany']['row'])
+sample_df
+```
+
+![image-20220119232234501](Crawling_Starbucks.assets/image-20220119232234501.png)
+
+```python
+#서울시 주민등록 인구 자료 불러옴
+sgg_pop_df = pd.read_csv('../6_Starbucks_Location/files/report.txt',
+                        header = 2, sep = '\t')
+sgg_pop_df.head()
+```
+
+![image-20220119232211661](Crawling_Starbucks.assets/image-20220119232211661.png)
+
+
+
+```python
+url = 'http://openAPI.seoul.go.kr:8088/{}/json/{}/1/5/'.format(Open_API, service)
+service = 'GangseoListLoanCompany'
+
+def seoul_open_api_data(url, service):
+    data_list = None
+    try:
+        result_dict = requests.get(url).json()
+        result_data = result_dict[service]
+        code = result_data['RESULT']['CODE']
+        
+        if code == 'INF0-000':
+            data_list = result_data['row']
+    except:
+        pass
+    return(data_list)
+seoul_open_api_data(url, service)
+```
+
+```
+```
+
