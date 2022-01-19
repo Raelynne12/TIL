@@ -136,7 +136,7 @@ sgg_pop_df.head()
 
 
 ```python
-url = 'http://openAPI.seoul.go.kr:8088/{}/json/{}/1/5/'.format(Open_API, service)
+#서울열린데이터광장 open api를 호출하는 함수 작성
 service = 'GangseoListLoanCompany'
 
 def seoul_open_api_data(url, service):
@@ -146,14 +146,17 @@ def seoul_open_api_data(url, service):
         result_data = result_dict[service]
         code = result_data['RESULT']['CODE']
         
-        if code == 'INF0-000':
+        if code == 'INFO-000':
             data_list = result_data['row']
     except:
         pass
     return(data_list)
-seoul_open_api_data(url, service)
 ```
 
 ```
+url = 'http://openAPI.seoul.go.kr:8088/{}/json/{}/1/5/'.format(SEOUL_API_AUTH_KEY, service)
+service = 'GangseoListLoanCompany'
+a = seoul_open_api_data(url, service)
+a[0]
 ```
 
