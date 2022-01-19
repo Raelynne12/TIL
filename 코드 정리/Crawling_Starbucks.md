@@ -153,10 +153,45 @@ def seoul_open_api_data(url, service):
     return(data_list)
 ```
 
-```
+```python
 url = 'http://openAPI.seoul.go.kr:8088/{}/json/{}/1/5/'.format(SEOUL_API_AUTH_KEY, service)
 service = 'GangseoListLoanCompany'
 a = seoul_open_api_data(url, service)
 a[0]
 ```
 
+![image-20220120005323374](Crawling_Starbucks.assets/image-20220120005323374.png)
+
+```python
+#인구수 데이터 열이름 rename하기
+sgg_pop_df = pd.read_csv('../6_Starbucks_Location/files/report.txt',
+                        header = 2, sep = '\t')
+columns = {
+    '기간': 'GIGAN',
+    '자치구': 'JACHIGU',
+    '계': 'GYE_1',
+    '계.1': 'GYE_2',
+    '계.2': 'GYE_3',
+    '남자': 'NAMJA_1',
+    '남자.1': 'NAMJA_2',
+    '남자.2': 'NAMJA_3',
+    '여자': 'YEOJA_1',
+    '여자.1': 'YEOJA_2',
+    '여자.2': 'YEOJA_3',
+    '세대': 'SEDAE',
+    '세대당인구': 'SEDAEDANGINGU',
+    '65세이상고령자': 'N_65SEISANGGORYEONGJA'
+}
+sgg_pop_df.rename(columns = columns, inplace = True)
+sgg_pop_df
+```
+
+```python
+#자치구에서 합계행을 뺀 걸 sgg_pop_df_select로
+sgg_pop_df['JACHIGU']
+condition = sgg_pop_df['JACHIGU'] != '합계'
+sgg_pop_df_select = sgg_pop_df[condition]
+sgg_pop_df_select.head()
+```
+
+![image-20220120005421423](Crawling_Starbucks.assets/image-20220120005421423.png)
