@@ -236,7 +236,9 @@ plt.axis('off')
 
 ---
 
-### mapping
+### Folium
+
+> 위치정보를 시각화하기 위한 라이브러리
 
 ```python
 #크롤링한 장소 데이터들로 제주도 지도 맵 짜보기
@@ -340,7 +342,7 @@ raw total = pd.read_excel('./files/1_crawling_raw.xlsx')
 select_word_list = ['해돋이','박물관','힐링','게스트하우스','섭지코지']
 
 def select_word(select_word_list):
-    for select_word in content:
+    for select_word in select_word_list:
         check_list = []
         for content in raw_total['content']:
             if select_word in content:
