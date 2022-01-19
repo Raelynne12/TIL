@@ -328,3 +328,29 @@ map_jeju2
 ```
 
 ![image-20220118232002577](Crawling_Jeju_Family.assets/image-20220118232002577.png)
+
+
+
+----
+
+### + 특정 단어를 포함한 게시글 찾아서 단어들끼리 모아 엑셀파일로 저장하기
+
+```python
+raw total = pd.read_excel('./files/1_crawling_raw.xlsx')
+select_word_list = ['해돋이','박물관','힐링','게스트하우스','섭지코지']
+
+def select_word(select_word_list):
+    for select_word in content:
+        check_list = []
+        for content in raw_total['content']:
+            if select_word in content:
+                check_list.append(True)
+            else:
+                check_list.append(False)
+        select_df = raw_total[check_list]
+        fpath = './files/select_data{}.xlsx'.format(select_word)
+        select_df.to_excel(fpath, index = False)
+       
+select_word(select_word_list)
+```
+
