@@ -223,3 +223,38 @@ sgg_biz_df_final.to_excel('../6_Starbucks_Location/files/sgg_biz.xlsx',
                          index = False)
 ```
 
+```python
+#데이터 만들어서 따로 시군구명 뽑아서 starbucks list mine에 열 추가
+seoul_starbucks = pd.read_excel('../6_Starbucks_Location/files/seoul_starbucks_list_mine.xlsx')
+seoul_starbucks.head()
+```
+
+```python
+#시군구명 컬럼 추가
+seoul_starbucks['주소'].str.split()[0][1]  #Series형태
+sgg_names = []
+
+for address in seoul_starbucks['주소']:
+    sgg = address.split()[1]
+    sgg_names.append(sgg)
+type(sgg_names)  #얘는 list
+seoul_starbucks['시군구명'] = sgg_names
+seoul_starbucks.head()
+
+#엑셀로 저장
+seoul_starbucks.to_excel('../6_Starbucks_Location/files/seoul_starbucks_list.xlsx',
+                        index = False)
+```
+
+```python
+#구별로 매장이 몇 개 있는지
+#피벗테이블로 확인
+starbucks_sgg_count = seoul_starbucks.pivot_table(values = '매장명',
+                                                 index = '시군구명',
+                                                 aggfunc = 'count')
+starbucks_sgg_count = starbucks_sgg_count.rename(columns = {'매장명' : '스타벅스_매장수'})
+starbucks_sgg_count
+```
+
+
+
