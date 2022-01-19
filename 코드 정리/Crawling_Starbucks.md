@@ -195,3 +195,31 @@ sgg_pop_df_select.head()
 ```
 
 ![image-20220120005421423](Crawling_Starbucks.assets/image-20220120005421423.png)
+
+```python
+#자치구, 계-1 가지고 와서 컬럼명 바꾸고 엑셀로 저장
+sgg_pop_df_final = sgg_pop_df_select[['JACHIGU', 'GYE_1']]
+sgg_pop_df_final.columns = ['시군구명','주민등록인구']
+sgg_pop_df_final.head()
+
+sgg_pop_df_final.to_excel('../6_Starbucks_Location/files/seoul_sgg_mine.xlsx', index = False)
+```
+
+```python
+#이제 통합하기
+#동이 소계인 것만 뽑기
+#columns = ['시군구명','종사자수','사업체수']
+sgg_biz_df = pd.read_csv('../6_Starbucks_Location/files/report2.txt',
+                        header = 2,
+                        sep = '\t')
+condition = sgg_biz_df['동'] == '소계'
+sgg_biz_df_selected = sgg_biz_df[condition]
+sgg_biz_df_final = sgg_biz_df_selected[['자치구','계','사업체수']]
+
+sgg_biz_df_final = sgg_biz_df_final.reset_index(drop = True)
+sgg_biz_df_final.head()
+
+sgg_biz_df_final.to_excel('../6_Starbucks_Location/files/sgg_biz.xlsx',
+                         index = False)
+```
+
