@@ -256,5 +256,16 @@ starbucks_sgg_count = starbucks_sgg_count.rename(columns = {'매장명' : '스�
 starbucks_sgg_count
 ```
 
-
+```python
+#시군구코드	시군구명	위도	경도	스타벅스_매장수	주민등록인구	종사자수_x	사업체수_x
+#sgg_list : 시군구코드	시군구명	위도	경도
+seoul_sgg = pd.read_excel('../6_Starbucks_Location/files/seoul_sgg_list.xlsx')
+b = pd.read_excel('../6_Starbucks_Location/files/seoul_sgg_mine.xlsx')
+c = pd.read_excel('./files/a.xlsx')
+d = pd.read_excel('../6_Starbucks_Location/files/sgg_biz.xlsx')
+seoul_sgg = pd.merge(seoul_sgg, a, how = 'left',on = '시군구명')
+seoul_sgg = pd.merge(seoul_sgg, b, how = 'left', on = '시군구명')
+seoul_sgg = pd.merge(seoul_sgg, d, how = 'left', on = '시군구명')
+seoul_sgg.head()
+```
 
