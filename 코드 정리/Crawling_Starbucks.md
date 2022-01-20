@@ -267,5 +267,17 @@ seoul_sgg = pd.merge(seoul_sgg, a, how = 'left',on = '시군구명')
 seoul_sgg = pd.merge(seoul_sgg, b, how = 'left', on = '시군구명')
 seoul_sgg = pd.merge(seoul_sgg, d, how = 'left', on = '시군구명')
 seoul_sgg.head()
+
+#엑셀로
+seoul_sgg.to_excel('../6_Starbucks_Location/files/seoul_sgg_stat.xlsx', index = False)
+```
+
+```python
+import folium 
+import json  #단계구분도 그릴 때 사용(데이터 읽을 때)
+
+#스타벅스 매장분포
+seoul_starbucks = pd.read_excel('../6_Starbucks_Location/files/seoul_starbucks_list.xlsx')
+seoul_starbucks.head()
 ```
 
