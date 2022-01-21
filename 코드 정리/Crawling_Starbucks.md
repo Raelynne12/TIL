@@ -400,3 +400,52 @@ starbucks_bubble
 ```
 
 ![image-20220121225431400](Crawling_Starbucks.assets/image-20220121225431400.png)
+
+```python
+sgg_geojson_file_path = './maps/seoul_sgg.geojson'
+seoul_sgg_geo_2 = json.load(open(sgg_geojson_file_path, encoding = 'utf-8'))
+
+starbucks_choropleth =folium.Map(width = 400, height = 400,
+                                location=[37.573050, 126.979189],
+                                tiles = 'CartoDB positron',
+                                zoom_start = 11)
+
+# starbucks_choropleth
+
+folium.Choropleth(seoul_sgg_geo_2,
+                 data = seoul_sgg_stat,
+                 columns = ['시군구명', '스타벅스_매장수'],
+                 key_on = 'properties.SIG_KOR_NM',
+                  fill_color = 'YlOrRd',
+                  fill_opacity = 0.5,
+                  line_opacity = 0.7).add_to(starbucks_choropleth)
+
+starbucks_choropleth
+```
+
+![image-20220121225611293](Crawling_Starbucks.assets/image-20220121225611293.png)
+
+```py
+sgg_geojson_file_path = './maps/seoul_sgg.geojson'
+seoul_sgg_geo_2 = json.load(open(sgg_geojson_file_path, encoding = 'utf-8'))
+
+
+starbucks_choropleth =folium.Map(width = 400, height = 400,
+                                location=[37.573050, 126.979189],
+                                tiles = 'CartoDB positron',
+                                zoom_start = 11)
+
+# starbucks_choropleth
+
+folium.Choropleth(seoul_sgg_geo_2,
+                 data = seoul_sgg_stat,
+                 columns = ['시군구명', '주민등록인구'],
+                 key_on = 'properties.SIG_KOR_NM',
+                  fill_color = 'YlOrRd',
+                  fill_opacity = 0.5,
+                  line_opacity = 0.7).add_to(starbucks_choropleth)
+
+starbucks_choropleth
+```
+
+![image-20220121225654083](Crawling_Starbucks.assets/image-20220121225654083.png)
