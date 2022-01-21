@@ -92,6 +92,42 @@ foundation_df = pd.DataFrame(foundation_data_list)
 foundation_df.columns = ['브랜드명','상품명','가격','별점','리뷰개수']
 ```
 
+```python
+foundation_df.to_excel('./files/foundation.xlsx', index = False)
 ```
+
+```python
+foundation_df.head()  #120개
+```
+
+![image-20220121223228394](Crawling_Foundation.assets/image-20220121223228394.png)
+
+```python
+#시각화
+from matplotlib import font_manager, rc
+import matplotlib.pyplot as plt
+import seaborn as sns
+# import platform 
+
+rc('font', family = 'Malgun Gothic')
+```
+
+```python
+plt.figure(figsize = (25, 15))
+sns.scatterplot(x = '가격', y = '리뷰개수',
+               size = '별점', hue = foundation_df['브랜드명'],
+               data = foundation_df, legend = False,
+               sizes = (10, 1000)
+               )
+plt.yticks(np.arange(0, 900, step = 400))
+plt.title('LOTTE on 백화점몰 속 베이스메이크업 인기도')
+    
+for index, row in foundation_df.iterrows():
+    x = row['가격']
+    y = row['리뷰개수']
+    s = row['브랜드명'].split(' ')[0]
+    plt.text(x,y,s, size=10)
+    
+plt.show()
 ```
 
