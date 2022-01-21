@@ -17,3 +17,81 @@ import folium
 import json
 ```
 
+```python
+driver = webdriver.Chrome(service = Service('../chromedriver.exe'))
+url = 'https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=pc&collection_id=9&login=Y&u9=navigate&u8=FC04140100&mallId=1'
+driver.get(url)
+```
+
+```python
+html = driver.page_source
+soup = BeautifulSoup(html, 'html.parser')
+soup
+```
+
+```python
+#쿠션 파운데이션 순위
+#가격, 별점, 리뷰개수, 브랜드
+foundations = soup.select('div.srchResultProductArea li.srchProductItem')
+foundation = foundations[0]
+brand = foundation.select('div.srchProductUnitTitle')[0].text.strip().split('\n')[0]
+brand
+name = foundation.select('div.srchProductUnitTitle')[0].text.strip().split('\n')[1]
+name
+price = foundation.select('del.s-product-price__original')[0].text.strip().replace('정상가','').replace('원','').replace(',','')
+price = int(price)
+star = foundation.select('span.s-product-score__number')[0].text
+star = float(star)
+review = foundation.select('span.s-product-score__number')[1].text.replace('리뷰','').strip()
+review = int(review)
+print(brand, name, price, star, review, sep = '/')
+```
+
+```python
+#for문 돌려서 리스트 쭉 받는 함수 만들기
+foundation_data = []
+
+def foundation_list(foundations):
+    for foundation in foundations:
+        try:
+            brand = foundation.select('div.srchProductUnitTitle')[0].text.strip().split('\n')[0]
+        except:
+            brand = ''
+        try:
+            name = foundation.select('div.srchProductUnitTitle')[0].text.strip().split('\n')[1]
+        except:
+            name = ''
+        try:
+            price = foundation.select('del.s-product-price__original')[0].text.strip().replace('정상가','').replace('원','').replace(',','')
+            price = int(price)
+
+        except:
+            price = 0
+        try:
+            star = foundation.select('span.s-product-score__number')[0].text
+            star = float(star)
+        except:
+            star = 0
+        try:
+            review = foundation.select('span.s-product-score__number')[1].text.replace('리뷰','').strip()
+            review = int(review)
+        except:
+            review = 0
+        mylist = [brand, name, price, star, review]
+        foundation_data.append(mylist)
+    return (foundation_data)
+```
+
+```python
+foundation_data_list = foundation_list(foundations)
+```
+
+```python
+#DataFrame으로 만들기
+foundation_df = pd.DataFrame(foundation_data_list)
+foundation_df.columns = ['브랜드명','상품명','가격','별점','리뷰개수']
+```
+
+```
+```
+
