@@ -281,3 +281,122 @@ seoul_starbucks = pd.read_excel('../6_Starbucks_Location/files/seoul_starbucks_l
 seoul_starbucks.head()
 ```
 
+![image-20220121225132550](Crawling_Starbucks.assets/image-20220121225132550.png)
+
+```python
+tiles = ['stamenwatercolor', 'cartodbpositron', 
+         'openstreetmap', 'stamenterrain']
+
+starbucks_map = folium.Map(location = [37.573050, 126.979189],
+                          tiles = 'StamenTerrain',
+                          zoom_start = 11)
+
+
+
+for idx in seoul_starbucks.index:
+    
+    lat = seoul_starbucks.loc[idx, '위도']
+    lng = seoul_starbucks.loc[idx, '경도']
+    store_type = seoul_starbucks.loc[idx, '매장타입']
+    names = '<pre>'+seoul_starbucks.loc[idx, '매장명'] + '</pre>'
+    address = '<pre>'+ seoul_starbucks.loc[idx, '주소'] + '</pre>'
+    
+    
+    fillColor = ''
+    if store_type == 'general':
+        fillColor = "gray"
+        
+    elif store_type == "reserve":
+        fillColor = "blue"
+        
+    elif store_type == 'generalDT':
+        fillColor = 'red'
+        
+        
+ 
+    folium.CircleMarker(
+    location = [lat, lng],
+    color = fillColor,
+    popup = address, #누르면 나오는거
+    tooltip = names,  #갖다 대면 나오는 거
+    radius = 4,   #끝선의 두께
+    weight = 1,
+    fill = True,
+    fill_color = fillColor,
+    fill_opacity = 0.5).add_to(starbucks_map)
+    
+    
+starbucks_map
+```
+
+![image-20220121225249843](Crawling_Starbucks.assets/image-20220121225249843.png)
+
+```python
+seoul_sgg_stat = pd.read_excel('./files/seoul_sgg_stat.xlsx')
+seoul_sgg_stat.head()
+```
+
+```python
+sgg_geojson_file_path = './maps/seoul_sgg.geojson'
+seoul_sgg_geo = json.load(open(sgg_geojson_file_path, encoding = 'utf-8'))
+seoul_sgg_geo['features'][0]['properties']
+```
+
+```python
+starbucks_bubble = folium.Map(
+                    location = [37.573050, 126.979189],
+                    tiles = 'CartoDB positron',
+                    zoom_start = 11)
+
+
+
+def style_function(feature):
+    return{
+        'opacity': 0.7,
+        'weight': 1,
+        'color':'red',
+        'fillOpacity':0.1,
+        'dashArray': '5, 5'
+    }
+
+folium.GeoJson(seoul_sgg_geo,
+              style_function = style_function
+              ).add_to(starbucks_bubble)
+
+starbucks_bubble
+
+starbucks_mean = seoul_sgg_stat['스타벅스_매장수'].mean()
+
+
+for idx in seoul_sgg_stat.index:
+    
+    lat = seoul_sgg_stat.loc[idx, '위도']
+    lng = seoul_sgg_stat.loc[idx, '경도']
+    count = seoul_sgg_stat.loc[idx, '스타벅스_매장수']
+
+    
+    
+    
+    if count > starbucks_mean:
+        fillColor = 'red'
+        
+    else:
+        
+        fillColor = 'blue'
+    
+              
+ 
+    folium.CircleMarker(
+    location = [lat, lng],
+    color = '#FFFF00',
+    radius = int(count/2),
+    weight = 1,
+    fill = True,
+    fill_color = fillColor,
+    fill_opacity = 0.5).add_to(starbucks_bubble)
+    
+    
+starbucks_bubble
+```
+
+![image-20220121225431400](Crawling_Starbucks.assets/image-20220121225431400.png)
