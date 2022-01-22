@@ -77,3 +77,37 @@ jeju_nature_list_df = pd.DataFrame(jeju_nature_list)
 jeju_nature_list_df.columns = ['장소이름', '경도','위도','검색어']
 ```
 
+```python
+#지도에 그려보기
+import folium
+from folium.plugins import MarkerCluster
+locations = []
+names = []
+
+for i in range(len(jeju_total_df)):
+    data = jeju_total_df.iloc[i]
+    locations.append((float(data['위도']), float(data['경도'])))
+    names.append(data['장소이름'])
+    
+#print(locations)
+
+Mt_Hanla = [33.362500,126.533694]
+map_jeju2 = folium.Map(location = Mt_Hanla,
+                     zoom_start = 11)
+#https://deparkes.co.uk/2016/06/10/folium-map-tiles/
+tiles = ['stamenwatercolor', 'cartodbpositron', 
+         'openstreetmap', 'stamenterrain','cartodbdark_matter']
+
+for tile in tiles:
+    folium.TileLayer(tile).add_to(map_jeju2)
+    
+marker_cluster = MarkerCluster(locations = locations,
+                             popups = names,
+                             name = 'jeju',
+                             overlay = True,
+                             control = True).add_to(map_jeju2)
+
+folium.LayerControl().add_to(map_jeju2)
+map_jeju2
+```
+
