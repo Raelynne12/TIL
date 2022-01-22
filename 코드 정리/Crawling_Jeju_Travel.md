@@ -67,3 +67,13 @@ for location in locations_enjoy:
 jeju_enjoy_list
 ```
 
+```python
+jeju_eating_list_df = pd.DataFrame(jeju_eating_list)
+jeju_eating_list_df.columns = ['장소이름', '경도','위도','검색어']
+jeju_eating_list_df
+jeju_enjoy_list_df = pd.DataFrame(jeju_enjoy_list)
+jeju_enjoy_list_df.columns = ['장소이름', '경도','위도','검색어']
+jeju_nature_list_df = pd.DataFrame(jeju_nature_list)
+jeju_nature_list_df.columns = ['장소이름', '경도','위도','검색어']
+```
+
