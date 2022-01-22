@@ -111,3 +111,37 @@ folium.LayerControl().add_to(map_jeju2)
 map_jeju2
 ```
 
+```python
+import folium
+from folium.plugins import MarkerCluster
+locations_eating = []
+names_eating = []
+
+for i in range(len(jeju_total_df)):       #총 개수만큼 돌아가
+    data = jeju_total_df.iloc[i]          #행 돌아가면서 data에 들어가
+    locations_eating.append((float(data['위도']), float(data['경도'])))  #locations에 위도를 float형태로 넣어
+    names_eating.append(data['장소이름'])         #name리스트에 장소이름 추가해
+    
+Mt_Hanla = [33.362500,126.533694]
+map_jeju2 = folium.Map(location = Mt_Hanla,
+                     zoom_start = 11)
+
+#https://deparkes.co.uk/2016/06/10/folium-map-tiles/
+tiles = ['stamenwatercolor', 'cartodbpositron', 
+         'openstreetmap', 'stamenterrain','cartodbdark_matter']
+
+for tile in tiles:
+    folium.TileLayer(tile).add_to(map_jeju2)
+    
+marker_cluster = MarkerCluster(locations = locations,
+                             popups = names,
+                             #icon=folium.Icon(color='blue',icon='star'),
+                             name = 'jeju',
+                             tooltip = '맛집'
+                             overlay = True,
+                             control = True).add_to(map_jeju2)
+
+folium.LayerControl().add_to(map_jeju2)
+map_jeju2
+```
+
