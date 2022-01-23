@@ -120,32 +120,32 @@ from pandas.io.json import json_normalize
 import os
 locations_lat_eating = []
 locations_lng_eating = []
-names = []
+names_eating = []
 locations_lat_enjoy = []
 locations_lng_enjoy = []
-
+names_enjoy=[]
 locations_lat_nature = []
 locations_lng_nature = []
-
-for i in range(len(jeju_total_df)):       #총 개수만큼 돌아가
-    data = jeju_total_df.iloc[i]
-    names.append(data['장소이름'])         #name리스트에 장소이름 추가해
+names_nature = []
     
 
 for i in range(len(jeju_eating_list_df)):       #총 개수만큼 돌아가
     data = jeju_eating_list_df.iloc[i]          #행 돌아가면서 data에 들어가
     locations_lat_eating.append(float(data['위도']))  #locations에 위도를 float형태로 넣어
     locations_lng_eating.append(float(data['경도']))
+    names_eating.append(data['장소이름'])
     
 for i in range(len(jeju_enjoy_list_df)):       #총 개수만큼 돌아가
     data = jeju_enjoy_list_df.iloc[i]          #행 돌아가면서 data에 들어가
     locations_lat_enjoy.append(float(data['위도']))  #locations에 위도를 float형태로 넣어
     locations_lng_enjoy.append(float(data['경도']))
+    names_enjoy.append(data['장소이름'])
     
 for i in range(len(jeju_nature_list_df)):       #총 개수만큼 돌아가
     data = jeju_nature_list_df.iloc[i]          #행 돌아가면서 data에 들어가
     locations_lat_nature.append(float(data['위도']))  #locations에 위도를 float형태로 넣어
     locations_lng_nature.append(float(data['경도']))
+    names_nature.append(data['장소이름'])
     
     
 Mt_Hanla = [33.362500,126.533694]
@@ -164,7 +164,7 @@ for i in range(len(locations_lat_eating)):
     longitude = locations_lng_eating[i]
     folium.Marker(location = [latitude,longitude],
                  #popup = ,
-                 tooltip = '<pre>' + names[i] + '</pre>',
+                 tooltip = '<pre>' + names_eating[i] + '</pre>',
                  icon = folium.Icon(color = 'orange',
                                     #icon_color = 'red',
                                     #icon = 'info-sign',
@@ -175,7 +175,7 @@ for i in range(len(locations_lat_enjoy)):
     longitude = locations_lng_enjoy[i]
     folium.Marker(location = [latitude,longitude],
                  #popup = ,
-                 tooltip = '<pre>' + names[i] + '</pre>',
+                 tooltip = '<pre>' + names_enjoy[i] + '</pre>',
                  icon = folium.Icon(color = 'lightblue',
                                     #icon_color = 'blue',
                                     #icon = 'info-sign',
@@ -187,7 +187,7 @@ for i in range(len(locations_lat_nature)):
     longitude = locations_lng_nature[i]
     folium.Marker(location = [latitude,longitude],
                  #popup = ,
-                 tooltip = '<pre>' + names[i] + '</pre>',
+                 tooltip = '<pre>' + names_nature[i] + '</pre>',
                  icon = folium.Icon(color = 'green',
                                     #icon_color = '',
                                     #icon = 'info-sign',
@@ -200,3 +200,4 @@ folium.LayerControl().add_to(map_jeju2)
 map_jeju2
 ```
 
+![image-20220123235312129](Crawling_Jeju_Travel.assets/image-20220123235312129.png)
