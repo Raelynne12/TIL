@@ -159,18 +159,18 @@ tiles = ['stamenwatercolor', 'cartodbpositron',
 for tile in tiles:
     folium.TileLayer(tile).add_to(map_jeju2)
     
-for i in range(len(locations_eating)):
+for i in range(len(locations_lat_eating)):
     latitude = locations_lat_eating[i]
     longitude = locations_lng_eating[i]
     folium.Marker(location = [latitude,longitude],
                  #popup = ,
                  tooltip = '<pre>' + names[i] + '</pre>',
-                 icon = folium.Icon(color = 'yellow',
+                 icon = folium.Icon(color = 'orange',
                                     #icon_color = 'red',
                                     #icon = 'info-sign',
                                     #icon = '',
                                     prefix = 'fa')).add_to(map_jeju2)
-for i in range(len(locations_enjoy)):
+for i in range(len(locations_lat_enjoy)):
     latitude = locations_lat_enjoy[i]
     longitude = locations_lng_enjoy[i]
     folium.Marker(location = [latitude,longitude],
@@ -182,7 +182,7 @@ for i in range(len(locations_enjoy)):
                                     #icon = 'wifi',
                                     prefix = 'fa')).add_to(map_jeju2)
     
-for i in range(len(locations_nature)):
+for i in range(len(locations_lat_nature)):
     latitude = locations_lat_nature[i]
     longitude = locations_lng_nature[i]
     folium.Marker(location = [latitude,longitude],
