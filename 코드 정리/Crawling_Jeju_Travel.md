@@ -114,6 +114,10 @@ map_jeju2
 ```python
 import folium
 from folium.plugins import MarkerCluster
+import json
+import pandas as pd
+from pandas.io.json import json_normalize
+import os
 locations = []
 names = []
 
@@ -133,8 +137,10 @@ tiles = ['stamenwatercolor', 'cartodbpositron',
 for tile in tiles:
     folium.TileLayer(tile).add_to(map_jeju2)
     
+#folium.Marker(locations = locations, popup=names, icon=folium.Icon(color = 'blue'), name = 'jeju', contro = True).add_to(map_jeju2)
 marker_cluster = MarkerCluster(locations = locations,
                              popups = names,
+                             color = 'red',
                              #icon=folium.Icon(color='blue',icon='star'),
                              name = 'jeju',
                              overlay = True,
