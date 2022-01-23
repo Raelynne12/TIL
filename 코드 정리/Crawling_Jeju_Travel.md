@@ -118,12 +118,14 @@ import json
 import pandas as pd
 from pandas.io.json import json_normalize
 import os
-locations = []
+locations_lat = []
+locations_lng = []
 names = []
 
 for i in range(len(jeju_total_df)):       #총 개수만큼 돌아가
     data = jeju_total_df.iloc[i]          #행 돌아가면서 data에 들어가
-    locations.append((float(data['위도']), float(data['경도'])))  #locations에 위도를 float형태로 넣어
+    locations_lat.append(float(data['위도']))  #locations에 위도를 float형태로 넣어
+    locations_lng.append(float(data['경도']))
     names.append(data['장소이름'])         #name리스트에 장소이름 추가해
     
 Mt_Hanla = [33.362500,126.533694]
@@ -137,14 +139,20 @@ tiles = ['stamenwatercolor', 'cartodbpositron',
 for tile in tiles:
     folium.TileLayer(tile).add_to(map_jeju2)
     
-#folium.Marker(locations = locations, popup=names, icon=folium.Icon(color = 'blue'), name = 'jeju', contro = True).add_to(map_jeju2)
-marker_cluster = MarkerCluster(locations = locations,
-                             popups = names,
-                             color = 'red',
-                             #icon=folium.Icon(color='blue',icon='star'),
-                             name = 'jeju',
-                             overlay = True,
-                             control = True).add_to(map_jeju2)
+    
+for i in range(len(locations)):
+    latitude = locations_lat[i]
+    longitude = locations_lng[i]
+    folium.Marker(location = [latitude,longitude],
+                 #popup = ,
+                 tooltip = '<pre>' + names[i] + '</pre>',
+                 icon = folium.Icon(color = 'red',
+                                    icon_color = 'blue',
+                                    #icon = 'info-sign',
+                                    icon = 'wifi',
+                                    prefix = 'fa')).add_to(map_jeju2)
+
+
 
 folium.LayerControl().add_to(map_jeju2)
 map_jeju2
