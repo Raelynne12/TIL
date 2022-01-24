@@ -205,3 +205,53 @@ cv2.destroyAllWindows()
 
 
 
+### 정리
+
+---
+
+resize 할 때
+
+\> `cv2.resize(img, (320, 240), interpolation = cv2.INTER_AREA)`
+
+
+
+창의 사이즈를 왔다갔다 조절하고 싶을 때
+
+\> `cv2.namedWindow('image', cv2.WINDOW_NORMAL)`
+
+
+
+창의 위치 지정
+
+\> `cv2.moveWindow('image', 0, 0)`    #0,0은 왼쪽 위가 시작
+
+
+
+rgb로 바꾸기
+
+\> `cv2.cvtColor(img, cv2.COLOR_BGR2RGB)`
+
+\>` cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)`
+
+
+
+주피터 내에서 사진 나타내기
+
+\> matplot으로
+
+\> `plt.subplot(131), plt.imshow(img), plt.axis('off')`
+
+
+
+창은 나오는 전체화면으로 나타내기
+
+\> `cv2.namedWindow('image', cv2.WINDOW_NORMAL)`
+
+
+
+창까지 안나오는 완전 전체화면으로
+
+\> `cv2.setWindowProperty('image', cv2.WIND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)`
+
+
+
