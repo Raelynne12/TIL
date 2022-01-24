@@ -125,8 +125,83 @@ cv2.destroyAllWindows()
 ```
 
 ```python
+#out창에도 사진이 나오게 
 import matplotlib.pyplot as plt
 
+img = cv2.imread('./fig/puppy.bmp', cv2.IMREAD_COLOR)
+#bgr 순서(openCV는)
+if img is None:
+    print('filed')
+    sys.exit()
+    
+cv2.namedWindow('image')
+cv2.imshow('image',img)
 
+imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) #이렇게 bgr을 rgb로 바꿔놔야 사진이 정상으로 나와
+imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+plt.subplot(131), plt.imshow(img), plt.axis('off')
+plt.subplot(131), plt.imshow(imgRGB), plt.axis('off')
+plt.subplot(131), plt.imshow(imgGray, cmap = 'gray'), plt.axis('off')
+
+plt.imshow(imgGray, cmap = 'gray')  #cmap을 gray로 해줘야 나옴
+plt.axis('off')
+plt.show()
+#rgb로 인식(plt)
+
+while True:
+    key = cv2.waitKey()
+    if key == 27:
+        break
+
+cv2.destroyAllWindows()
 ```
+
+```python
+#for문 돌려서 연속으로 이미지 파일이 나오게
+import os
+
+img_list = os.listdir('./fig/images/')
+#print(img_list)
+
+img_path = []
+
+for i in img_list:
+    img_path_all = './fig/images/' + i
+    img_path.append(img_path_all)
+#img_path
+
+cv2.namedWindow('image', cv2.WINDOW_NORMAL)              #그냥 전체화면(창은 나옴)
+cv2.setWindowProperty('image', cv2.WND_PROP_FULLSCREEN,  #진짜 ㄹㅇ 전체화면으로 뜸(창까지 다 없애서)
+                     cv2.WINDOW_FULLSCREEN)
+
+for i in img_path:
+    img = cv2.imread(i, cv2.IMREAD_COLOR)
+    cv2.imshow('image', img)
+    cv2.waitKey(3000)
+    
+cv2.destroyAllWindows()
+```
+
+```python
+#for문 말고 무한루프로 나오게 하면서 esc키를 누르면 나오게
+idx = 0
+
+while True:
+    img_name = img_path[idx]
+    img = cv2.imread(img_name, cv2.IMREAD_COLOR)
+    
+    cv2.imshow('image', img)
+    if cv2.waitKey(2000) == 27:
+        break
+    
+    idx += 1
+    
+    if idx >= len(img_path):
+        idx = 0
+        
+cv2.destroyAllWindows()
+```
+
+
 
