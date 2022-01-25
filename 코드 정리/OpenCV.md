@@ -324,3 +324,18 @@ ret, mask = cv2.threshold(src_gray, 165, 255, cv2.THRESH_BINARY_INY)
 #를 copyTo 위에 
 ```
 
+```python
+#송아지 사진을 합성
+src = cv2.imread('./fig/cow.png')
+dst = cv2.imread('./fug/green.png')
+src_gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+
+h, w = src.shape[:2]  
+src.shape #600 /600
+dst.shape #1125 / 1500
+
+img2 = cv2.resize(dst, (w, h), cv2.INTER_AREA)  #이렇게 resize를 해야 합성이 됨(사이즈를 맞춰야)
+
+ret, mask = cv2.threshold(src_gray, 246, 255, cv2.THRESH_BINARY_INV)
+```
+
