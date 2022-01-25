@@ -283,6 +283,43 @@ cv2.waitKey()
 cv2.destroyAllWindows()
 ```
 
+```python
+img1 = np.zeros((240, 320, 3), dtype = np.uint8)
+img2 = np.ones((240, 320), dtype = np.uint8)*255  #255로 하면 하얀 화면
+img3 = np.full((240, 320, 3), 255, dtype = np.uint8) #안에다가 255 넣어도 됨
+img4 = np.random.randint(o, 255, size = (240,320), dtype = np.uint8) #0~255까지 랜덤
+
+img1[10:60,10:60] = (200,0,200) #(R, G, B)순서
 ```
+
+```python
+#영상 복사
+img1 = img #이렇게 하면 둘 중에 하나가 바뀌면 나머지도 바뀜
+img2 = img.copy()  #이렇게 copy()를 써야 바뀐 게 적용이 안됨
+```
+
+```python
+#사진에 원 그리기
+img = cv2.imread('./fig/puppy.bmp')
+img2 = img1[200:400, 300:500]
+img3 = img2.copy()
+
+#circle(img, center, radius, color[, thickness[, lineType[, shift]]]) -> img
+cv2.circle(img2, (120, 90), 50, (250, 0, 120), -1, cv2.LINE_AA) #라인을 자연스럽게(안삐뚤)
+```
+
+```python
+#copyTo
+src = cv2.imread('./fig/airplane.bmp', cv2.IMREAD_COLOR)
+mask = cv2.imread('./fig/mask_plane.bmp', c2.IMREAD_GRAYSCALE)
+dst = cv2.imread('./fig/field.bmp', cv2.IMREAD_COLOR)
+
+cv2.copyTo(src, mask, dst) #0이 아닌 부분을 뽑아서 합성
+```
+
+```python
+##만약 mask가 없으면 > mask를 만드는 방법
+ret, mask = cv2.threshold(src_gray, 165, 255, cv2.THRESH_BINARY_INY)
+#를 copyTo 위에 
 ```
 
