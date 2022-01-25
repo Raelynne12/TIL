@@ -319,6 +319,7 @@ cv2.copyTo(src, mask, dst) #0이 아닌 부분을 뽑아서 합성
 
 ```python
 ##만약 mask가 없으면 > mask를 만드는 방법
+src_gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
 ret, mask = cv2.threshold(src_gray, 165, 255, cv2.THRESH_BINARY_INY)
 #를 copyTo 위에 
 ```
