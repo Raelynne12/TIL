@@ -253,5 +253,36 @@ rgb로 바꾸기
 
 \> `cv2.setWindowProperty('image', cv2.WIND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)`
 
+---
 
+
+
+## 둘째 날
+
+```python
+#픽셀값 참조
+img = cv2.imread('./fig/puppy.bmp', 1)
+img2 = cv2.imread('./fig/puppy.bmp', 0)
+
+x = 120
+y = 320
+
+img1_move = img1[y, x] #x축 y축으로 옮긴 값  #[194 198 209]
+img2_move = img2[y, x]  #201 << 얘는 흑백이어서
+
+h, w = img1.shape[:2]
+img1_center = img1[h//2, w//2]  #[0 14 40]
+img2_center = img2[h//2, w//2]  # 20
+
+img1[10:110, 100:200] = (200, 0, 250)
+img2[10:110, 100:200] = 200  #흑백에 컬러로 넣으면 오류남(한 개만 써야)
+
+cv2.imshow('image1', img1)
+cv2.imshow('image2', img2)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
+```
+```
 
