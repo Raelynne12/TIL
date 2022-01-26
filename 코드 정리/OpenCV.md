@@ -410,7 +410,7 @@ cv2.destroyAllWindows()
 
 #안경씌우기
 #안경 사이즈를 src에 맞게 줄인 후 copyTo
-src = cv2.imread('./figrc = cv2.imread('./fig/puppy.bmp', cv2.IMREAD_COLOR)
+src = cv2.imread('./fig/puppy.bmp', cv2.IMREAD_COLOR)
 img_alpha = cv2.imread('./fig/imgbin_sunglasses_1.png', cv2.IMREAD_UNCHANGED)
 
 img_alpha = cv2.resize(img_alpha, (300, 150))  
@@ -419,8 +419,8 @@ if src is None or img_alpha is None:
     print('failed')
     sys.exit()
 
-sumglass = img_alpha[:,:,0:3]  
-mask = img_alpha[:,:,-1]     
+sumglass = img_alpha[:,:,0:3]   #sunglass인데 오타냄
+mask = img_alpha[:,:,-1]     #마스크는 흑백으로 만들지 않고 컬러로 해놔야 색이 바뀜
 
 h, w = mask.shape[:2]
 crop = src[120:120+h, 220:220+w]  #120~120+h , 220 ~ 220+w 만큼을 crop
@@ -434,7 +434,6 @@ crop[mask > 0] = (255, 0, 255)  #선글라스 색깔 바꾸기
 cv2.imshow('sunglass', sumglass)
 cv2.imshow('mask', mask)
 cv2.imshow('src', src)
-#cv2.imshow('sunglass', sunglass)
 cv2.imshow('crop', crop)
 cv2.waitKey()
 cv2.destroyAllWindows()')
