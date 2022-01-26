@@ -386,3 +386,56 @@ cv2.destroyAllWindows()
 ```
 
 ![image-20220126172208812](OpenCV.assets/image-20220126172208812.png)
+
+```python
+#알파 채널 이용해서 강아지 얼굴에 안경 합치기
+src = cv2.imread('./fig/puppy.bmp')
+img_alpha = cv2.imread('./fig/imbin_sunglasses_1.png', cv2.IMREAD_UNCHANGED)
+#알파 쓸 때는 꼭 unchanged를 써야 함
+
+sunglass = img_alpha[:,:,0:3] #왜냐하면 sunglass.shape이 480,960,4이기 때문에 0~3을 가져와야 함
+mask = img_alpha[:,:,-1] #4번째 거 가져옴
+#이거 둘이 합친 게 선글라스가 됨
+
+cv2.copyTo(img_alpha, mask, src)
+
+cv2.imshow('mask', mask)
+cv2.imshow('src', src)
+cv2.imshow('sunglass', sunglass)
+cv2.waitKey()
+cv2.destroyAllWindows()
+#이렇게 하면 준비 완료
+
+#안경씌우기
+#안경 사이즈를 src에 맞게 줄인 후 copyTo
+src = cv2.imread('./figrc = cv2.imread('./fig/puppy.bmp', cv2.IMREAD_COLOR)
+img_alpha = cv2.imread('./fig/imgbin_sunglasses_1.png', cv2.IMREAD_UNCHANGED)
+
+img_alpha = cv2.resize(img_alpha, (300, 150))
+
+if src is None or img_alpha is None:
+    print('failed')
+    sys.exit()
+
+sumglass = img_alpha[:,:,0:3]  #아무것도 안보임
+mask = img_alpha[:,:,-1]      
+#얘네 둘이 합친 게 선글라스가 됨
+
+h, w = mask.shape[:2]
+crop = src[120:120+h, 220:220+w]
+
+crop[mask > 0] = (255, 0, 255)
+
+#cv2.copyTo(sumglass, mask, crop)
+
+#cv2.copyTo(img_alpha, mask, src)
+
+cv2.imshow('sunglass', sumglass)
+cv2.imshow('mask', mask)
+cv2.imshow('src', src)
+#cv2.imshow('sunglass', sunglass)
+cv2.imshow('crop', crop)
+cv2.waitKey()
+cv2.destroyAllWindows()')
+```
+
