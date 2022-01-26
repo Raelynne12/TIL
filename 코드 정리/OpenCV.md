@@ -360,3 +360,29 @@ cv2.waitKey()
 cv2.destroyAllWindows()
 ```
 
+```python
+#양떼 목장 사진에서 심슨 사진 합성하기
+
+src = cv2.imread('./simpson.png')
+dst = cv2.imread('./sheep.jpg')
+src_gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+dst.shape  #466/960
+src.shape  #133/300
+
+h, w = src.shape[:2]
+
+dst_size = dst[0:0+h, 350:350+w]
+
+ret, mask = cv2.threshold(src_gray, 250, 255, cv2.THRESH_BINARY_INV)
+
+cv2.copyTo(src, mask, dst_size)
+
+cv2.imshow('src', src)
+cv2.imshow('mask', mask)
+cv2.imshow('dst_size', dst_size)
+cv2.imshow('dst', dst)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
+![image-20220126172208812](OpenCV.assets/image-20220126172208812.png)
