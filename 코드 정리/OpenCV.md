@@ -339,3 +339,24 @@ img2 = cv2.resize(dst, (w, h), cv2.INTER_AREA)  #이렇게 resize를 해야 합�
 ret, mask = cv2.threshold(src_gray, 246, 255, cv2.THRESH_BINARY_INV)
 ```
 
+```python
+#송아지 사진을 합성하는데 좀 더 사실적으로
+img1 = cv2.imread('/.fig/cow.png')
+img2 = cv2.imread('./fig/green.png')
+
+h, w = img1.shape[:2]
+
+img2_seg = img2[350:350+h, 200:200+w] #개 코 뜯어서 원 그렸을 때 원본에도 그려졌던 것과 같은 이치
+
+ret, mask = cv2.threshold(img1, 244, 255, cv2.THRESH_BINARY_INV)
+
+cv2.copyTo(img1, mask, img2_seg)
+
+cv2.imshow('img1', img1)
+cv2.imshow('img2', img2)
+cv2.imshow('mask', mask)
+cv2.imshow('img_seg', img2_seg)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
