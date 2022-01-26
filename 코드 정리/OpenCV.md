@@ -568,6 +568,40 @@ out.release()
 cv2.destroyAllWindows()
 ```
 
-```
+```python
+#엣지의 흰부분을 검은색으로, 검은 부분을 흰색으로
+cap = cv2.VideoCapture(0) 
+
+if not cap.isOpened():
+    print('failed')
+    sys.exit()
+    
+w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+fps = int(cap,get(cv2.CAP_PROP_FPS)*0.7)
+fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+
+out = cv2.VideoWriter('edge_class.avi', fourcc, fps, (w, h))
+    
+while True:  
+    ret, frame = cap.read()
+    if not ret:  
+        print('failed')
+        break
+    #동영상 편집 부분
+    #----------------------------------------------------------------
+    edge = cv2.Canny(frame, 50, 150) 
+    edge = 255 - edge #이렇게 하면 뒤집힘(왜 이 간단한 걸 생각 못했을까..^^^^^^^)
+    edge_color = cv2.cvtColor(edge, cv2.COLOR_GRAY2BGR)
+    #----------------------------------------------------------------
+    cv2.imshow('edge', edge_color)
+    
+    out.write(edge_color)  
+    
+    if cv2.waitKey() == 27:
+        break
+cap.release()
+out.release() 
+cv2.destroyAllWindows()
 ```
 
