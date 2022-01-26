@@ -439,3 +439,135 @@ cv2.waitKey()
 cv2.destroyAllWindows()')
 ```
 
+```python
+#도화지에 글씨 써보기
+#-----------------------------------------------------------------
+img = np.full((600, 1200, 3), 255, np.uint8)
+
+img_mine = img.copy()
+
+cv2.line(img, (100, 50), (300, 50), (250,0,180), 4)
+cv2.line(img, (300, 50), (150, 250), (250,0,180), 4)
+cv2.line(img, (400, 50), (400, 250), (250, 0, 180), 4)
+#cv2.line(img, (150, 300), (400, 300), (250, 0, 180), 4)
+#cv2.arrowedLine()  >> 화살표
+#cv2.line(img, (150, 300), (150, 400), (250, 0, 180), 4)
+
+cv2.rectangle(img, (100, 300, 300, 100), (250, 0, 180), -1)
+
+cv2.rectangle(img, (100, 300), (400, 400), (0,255,180), 4)
+
+cv2.circle(img, (600, 300), 100, (0,255,100), 10, cv2.LINE_AA)
+
+cv2.ellipse(img, (600, 300), (50, 100), 10, 0, 360, (255,0,0))
+#중심좌표 / 반지름 / 타원 기울기 / 타원 그리는 시작 각도(3시 방향이 0도) / 타원그리는 종료 각도
+
+text = 'Opencv version ' + cv2.__version__
+cv2.putText(img, text, (800, 100), cv2.FONT_HERSHEY_SIMPLEX,
+           0.8, (255, 0, 0), 2)
+#img, text, org, fontface, 폰트크기, 색상, 두께
+
+print(text)
+cv2.imshow('cancas', img)
+
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
+```python
+#웹캠에서 받아서
+cap = cv2.VideoCapture(0) #여기에 동영상 경로 넣어도 가능
+
+if not cap.isOpened():
+    print('failed')
+    sys.exit()
+    
+#초당 30프레임씩 들어옴
+while True:  #계속 루프
+    ret, frame = cap.read() #ret > true/false, frame value~
+    if not ret:  #false면
+        print('failed')
+        break
+    edge = cv2.Canny(frame, 50, 150) #밑에 사진처럼 나오게
+    cv2.imshow('img', frame)
+    cv2.imshow('edge', edge)
+    
+    if cv2.waitKey() == 27:
+        break
+cap.release()
+cv2.destroyAllWindows()
+```
+
+```python
+#저장까지
+cap = cv2.VideoCapture(0) 
+
+if not cap.isOpened():
+    print('failed')
+    sys.exit()
+    
+w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+fps = int(cap,get(cv2.CAP_PROP_FPS)*0.7) #초당 몇 프레임으로 지정하겠다
+fourcc = cv2.VideoWriter_fourcc(*'DIVX') #영상 그대로 지정하면 너무 크니까 압축하는 형식 지정
+#이렇게 네 개가 반드시 필요(영상으로 저장할 때)
+
+out = cv2.VideoWriter('output_class.avi', fourcc, fps, (w, h))
+    
+while True:  
+    ret, frame = cap.read()
+    if not ret:  
+        print('failed')
+        break
+    edge = cv2.Canny(frame, 50, 150) 
+    cv2.imshow('img', frame)
+    cv2.imshow('edge', edge)
+    
+    out.write(frame)  #여기에 write frame하고
+    
+    if cv2.waitKey() == 27:
+        break
+cap.release()
+out.release() #꼭 닫아야 영상 저장 가능
+cv2.destroyAllWindows()
+```
+
+```python
+#엣지 영상만 저장
+cap = cv2.VideoCapture(0) 
+
+if not cap.isOpened():
+    print('failed')
+    sys.exit()
+    
+w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+fps = int(cap,get(cv2.CAP_PROP_FPS)*0.7)
+fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+
+out = cv2.VideoWriter('edge_class.avi', fourcc, fps, (w, h))
+    
+while True:  
+    ret, frame = cap.read()
+    if not ret:  
+        print('failed')
+        break
+    #동영상 편집 부분
+    #----------------------------------------------------------------
+    edge = cv2.Canny(frame, 50, 150) 
+    edge_color = cv2.cvtColor(edge, cv2.COLOR_GRAY2BGR)
+    #----------------------------------------------------------------
+    cv2.imshow('edge', edge_color)
+    
+    out.write(edge_color)  
+    
+    if cv2.waitKey() == 27:
+        break
+cap.release()
+out.release() 
+cv2.destroyAllWindows()
+```
+
+```
+```
+
