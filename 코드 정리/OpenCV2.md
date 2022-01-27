@@ -37,3 +37,29 @@ while True:
 cv2.destroyAllWindows()
 ```
 
+
+
+### 2) 마우스
+
+---
+
+```python
+def call_mouse(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:     	#누를 때 좌표
+        prnt('left button down : ', x, y)
+    elif event == cv2.EVENT_LBUTTONUP: 		#눌렀다가 뗐을 때 좌표
+        print('left button up : ', x, y)
+    elif e vent == cv2.EVENT_MOUSEMOVE:		#움직일 때 좌표들 다 나옴
+        if flags == cv2.EVENT_FLAG_LBUTTOM:	#이렇게 써야 눌렀을 때 상태의 좌표들만 나옴(클릭 후)
+            print(x,y)
+
+img = np.ones((480,640,3), np.uint8) * 255
+
+cv2.namedWindow('image')
+cv2.setMouseCallback('image', call_mouse, img) 
+#어느 창에서 받을 건지 / 이 함수를 호출해라 / 인자
+cv2.imshow('image', img)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
