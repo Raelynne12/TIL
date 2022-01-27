@@ -96,3 +96,42 @@ while True:
 cv2.destroyAllWindows()
 ```
 
+
+
+### 3) 트랙바 나타내기
+
+---
+
+```python
+def call_trackbar(pos):
+    img[:] = pos
+    cv2.imshow('image', img)
+    
+img = np.zeros((480, 640), np.uint8)
+cv2.namedWindow('image')
+cv2.createTrackbar('level', 'image', 50, 255, call_trackbar) #최대값은 항상 255
+cv2.imshow('image', img)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
+```python
+#선글라스 이미지가 트랙바로 나타나게
+
+def trackbar(pos):
+    global mask
+    img_glass = mask*pos   #여기가 왜 이런 건지는 아직 이해가 안됨(내일 설명해주신대)
+    cv2.imshow('mask', img_glass)
+    
+img = cv2.imread('./fig/imgbin_sunglasses_1.png', cv2.IMREAD_UNCHANGED)
+mask = img[:,:,-1]
+
+mask[mask > 0] = 1  #여기 부분도 잘 이해가 안 감 아직까지
+
+cv2.namedWindow('mask', cv2.WINDOW_NORMAL)
+cv2.imshow('mask',mask)
+cv2.createTrackbar('level', 'mask', 0, 255, trackbar)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
