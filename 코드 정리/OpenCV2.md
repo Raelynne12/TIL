@@ -193,6 +193,51 @@ cv2.destroyAllWindows()
 
 ![image-20220127210135720](OpenCV2.assets/image-20220127210135720.png)
 
+```python
+#bitwise_and / or / xor / not
+src1 = np.zeros((256,256), np.uint8)
+cv2.rectangle(src1, (10,10), (127, 248), 255, -1)
+
+src2 = np.zeros((256,256), np.uint8)
+cv2.circle(src2, (128, 128),100, 255, -1)
+
+dst_bit_and = cv2.bitwise_and(src1, src2)
+dst_bit_or = cv2.bitwise_or(src1, src2)
+dst_bit_xor = cv2.bitwise_xor(src1, src2)
+dst_bit_not = cv2.bitwise_not(src1)
+
+
+plt.figure(figsize = (12, 6))
+plt.subplot(231), plt.axis('off'), plt.imshow(src1, 'gray'), plt.title('src1')
+plt.subplot(232), plt.axis('off'), plt.imshow(src2, 'gray'), plt.title('src2')
+plt.subplot(233), plt.axis('off'), plt.imshow(dst_bit_and, 'gray'), plt.title('dst_bit_and')
+plt.subplot(234), plt.axis('off'), plt.imshow(dst_bit_or, 'gray'), plt.title('dst_bit_or')
+plt.subplot(235), plt.axis('off'), plt.imshow(dst_bit_xor, 'gray'), plt.title('dst_bit_xor')
+plt.subplot(236), plt.axis('off'), plt.imshow(dst_bit_not, 'gray'), plt.title('dst_bit_not_src2')
+plt.show()
+
+cv2.waitKey()
+cv2.destroyAllWindows()
 ```
+
+![image-20220127210812108](OpenCV2.assets/image-20220127210812108.png)
+
+```python
+src = cv2.imread('../Ch_3_Basic_img_proc/fig/flowers.jpg')
+
+b, g, r = cv2.split(src)
+dst = cv2.merge((b, g, r))
+dst1 = cv2.merge((r, g, b))
+dst2 = cv2.cvtColor(src, cv2.COLOR_BGR2RGB)
+
+cv2.imshow('dst2', dst2)
+cv2.imshow('dst1', dst1)
+cv2.imshow('src', src)
+cv2.imshow('dst', dst)
+cv2.imshow('b',b)
+cv2.imshow('g',g)
+cv2.imshow('r',r)
+cv2.waitKey()
+cv2.destroyAllWindows()
 ```
 
