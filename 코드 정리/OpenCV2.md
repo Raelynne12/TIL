@@ -243,6 +243,36 @@ cv2.destroyAllWindows()
 
 
 
+```python
+#nearest vs linear
+
+img = cv2.imread('./fig/lenna.bmp')
+
+h, w = img.shape[:2]
+
+img_half = cv2.resize(img, (w//2, h//2), interpolation = cv2.INTER_AREA)
+img_double =  cv2.resize(img,(int(2*w), int(2*h)), interpolation = cv2.INTER_AREA)
+
+if img is None:
+    print('failed')
+    sys.exit()
+    
+cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
+cv2.imshow('image', img)
+cv2.imshow('image1', img_half)
+cv2.imshow('image2', img_double)
+
+while True:
+    key = cv2.waitKey()
+    if key == 27:
+        break
+cv2.destroyAllWindows()
+
+#nearest는 사각형이 보임(픽셀처럼/크게 보면)
+```
+
+
+
 
 
 ### 모자 사진과 내 얼굴 사진 합성하기
@@ -257,7 +287,7 @@ mask = hat[:,:,-1]
 h, w = mask.shape[:2]
 
 crop = face[0:0+h, 60:60+w]  #모자의 위치를 어디로 할 건지 정해줌
-crop[mask > 0] = (0, 0, 0)  
+crop[mask > 0] = (0, 0, 0)   #근데 이게 정확히 무슨 뜻인지 모르겠음
 
 cv2.namedWindow('face', cv2.WINDOW_NORMAL)
 cv2.imshow('face', face)
