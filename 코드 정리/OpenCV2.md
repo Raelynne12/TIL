@@ -248,7 +248,7 @@ cv2.destroyAllWindows()
 ### 모자 사진과 내 얼굴 사진 합성하기
 
 ```python
-hat = cv2.imread('./fig/imgbin_hat.png', cv2.IMREAD_UNCHANGED)
+hat = cv2.imread('./fig/imgbin_hat.png', cv2.IMREAD_UNCHANGED) 
 face = cv2.imread('./fig/mypic.JPG')
 
 hat = cv2.resize(hat, (1100,1500))
@@ -256,8 +256,8 @@ mask = hat[:,:,-1]
 
 h, w = mask.shape[:2]
 
-crop = face[0:0+h, 60:60+w]
-crop[mask > 0] = (0, 0, 0)
+crop = face[0:0+h, 60:60+w]  #모자의 위치를 어디로 할 건지 정해줌
+crop[mask > 0] = (0, 0, 0)  
 
 cv2.namedWindow('face', cv2.WINDOW_NORMAL)
 cv2.imshow('face', face)
