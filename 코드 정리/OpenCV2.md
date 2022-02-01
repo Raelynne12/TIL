@@ -120,7 +120,7 @@ cv2.destroyAllWindows()
 
 def trackbar(pos):
     global mask
-    img_glass = mask*pos   #여기가 왜 이런 건지는 아직 이해가 안됨(내일 설명해주신대)
+    img_glass = mask*pos   #mask 0~1인데 pos값에 곱해져서 나옴 >> 그래서 곱해야
     cv2.imshow('mask', img_glass)
     
 img = cv2.imread('./fig/imgbin_sunglasses_1.png', cv2.IMREAD_UNCHANGED)
@@ -273,7 +273,8 @@ cv2.destroyAllWindows()
 
 
 
-
+``` 
+```
 
 ### 모자 사진과 내 얼굴 사진 합성하기
 
