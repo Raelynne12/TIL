@@ -273,7 +273,17 @@ cv2.destroyAllWindows()
 
 
 
+### opencv에서 히스토그램 그리기
+
 ``` 
+src = cv2.imread('./fig/lenna.bmp', 0)
+hist = cv2.calcHist([src], [0], None, [256],[0,256]) #256부분 값을 줄이면 그만큼 합쳐짐
+cv2.imshow('src',src)
+cv2.waitKey()
+cv2.destroyAllWindows()
+
+plt.plot(hist)
+plt.show()
 ```
 
 ### 모자 사진과 내 얼굴 사진 합성하기
