@@ -327,3 +327,24 @@ cv2.waitKey()
 cv2.destroyAllWindows()
 ```
 
+
+
+### normalization vs equalization
+
+```python
+src = cv2.imread('../Ch_4_Histogram_modi/fig/Hawkes.jpg', 0) #흑백으로
+dst_norm = cv2.normalize(src, None, 0, 255, cv2.NORM_MINMAX, -1) #-1 > 나오는 값 똑같게
+dst_equal = cv2.equalizeHist(src)
+cv2.imshow('src', src)
+cv2.imshow('dst_norm', dst_norm)
+cv2.imshow('dst_equal', dst_equal)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
+![image-20220202230334246](OpenCV2.assets/image-20220202230334246.png)
+
+normalization이 낫다 equalization이 낫다 없이 사진에 따라 나은 게 다름
+
+
+
