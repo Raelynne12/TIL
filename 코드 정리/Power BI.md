@@ -87,3 +87,8 @@ ADDCOLOUMNS
 
 
 
+---
+
+(수업시간에 과제로 진행된 지하철.pbix 캡처)
+
+![image-20220204224407143](Power BI.assets/image-20220204224407143.png)
