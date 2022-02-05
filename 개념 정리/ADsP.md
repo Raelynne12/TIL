@@ -226,3 +226,65 @@ SQL >>  관계 데이터베이스를 위한 표준 질의어
 2. 통합성 : 데이터가 항상 일관된 상태로 유지
 3. 시계열성 : 과거와 현재의 데이터를 동시에 유지 (시간에 따른 변경을 항상 반영하고 있어야)
 4. 비휘발성 : 읽기 전용의 데이터 유지
+
+
+
+## 3) 데이터베이스 활용
+
+
+
+**기업 내부 DB**
+
+- 1980년대
+  - OLTP 거래처리 : 여러 이용자가 실시간으로 데이터 갱신, 조회하는 등의 단위작업 처리
+  - OLAP 분석처리 : 정보 위주의 처리 분석
+- 2000년대
+  - CRM(customer relationship management) : 선별된 고객으로 수익 창출, 장기적인 고객 관리 가능케 > 높은 이익 창출할 수 있도록
+  - SCM(supply chain management) : 모든 업체들이 협력을 바탕으로 정보기술 활용, 재고를 최적화하기 위한 솔루션
+
+
+
+**분야별 기업 내부 DB**
+
+- 제조
+  - DW(data warehouse)
+  - ERP(enterprise resource planning) : 주요 프로세스 관리를 돕는 여러 모듈로 구성된 통합 애플리케이션 소프트웨어 패키지
+  - BI(business intelligence) : 리포트 중심 도구
+  - CRM(customer relationship management)
+- 금융
+  - EAI(enterprise architecture integration) : 기업 애플리케이션 통합(상호 연동 가능토록)
+  - EDW(enterprise data warehouse) : DW 확장판 / 다양한 분석 애플리케이션들을 위한 원천
+  - 블록체인 : 모든 사용자, 모든 거래내역 드으이 데이터 분산, 저장 / 해킹 불가능
+- 유통
+  - KMS(knowledge management system) : 지식관리시스템 / 지식을 체계적으로 관리
+  - RFID(radio frequency~~) : 무선주파수 이용해서 대상 식별할 수 있는 기술
+
+
+
+**사회 기반 구조 DB**
+
+- EDI(electronic data interchange) :  : 서로 합의된 표준에 따라 전자문서 만들고 상호 교환
+- CALS(commerce at lighted speed) : 광속상거래 / 각종 기술 자료를 디지털화
+
+
+
+**분야별 사회 기반 구조 DB**
+
+- 물류
+  - 종합물류정보망 : 실시간 차량추적
+  - 부가가치통신망(VAN) : 음성 또는 데이터 정보를 제공해주는 광범위, 복합적 통신서비스 집합
+- 지리
+  - 국가지리정보체계(NGIS)
+- 교통
+  - 지능형교통시스템(ITS)
+- 의료
+  - 의료 EDI
+- 교육
+  - 교육행정정보시스템(NEIS)
+
+
+
+|      | BI(business intelligence) | BA(business analytics)   |
+| ---- | ------------------------- | ------------------------ |
+|      | 리포트 중심               | 통계적, 수학적 분석 초점 |
+
