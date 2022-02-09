@@ -162,8 +162,33 @@ pd.crosstab(df['월수입'],df['사용브랜드'])
 
 ![image-20220207235620753](Statistics_01.assets/image-20220207235620753.png)
 
+```python
+#chi2_contingency()
+result = pd.crosstab(df['월수입'], df['사용브랜드'])
+stats.chi2_contingency(observed = result)
+#카이제곱 값 : 12.86516581745558
+#p-value : 0.024675611662926037  < 0.05
+#0.05보다 작으니까 통계적으로 유의미한 차이가 있음 >> 귀무가설 기각
+#월수입에 따라 사용브랜드 차이가 있음
+
+#5가 나온거는
+#df(자유도, degree of freedom) : k-1(=6-1) >> 5
+#자유도 : 자유롭게 변할 수 있는 원소의 개수
+
+#array : 기대치(expected value)
 ```
-#chisquare() 이 부분은 강사님이 다음날에 다시 공부해서 알려주신댜
+
+```python
+#결과값
+#(12.86516581745558,
+# 0.024675611662926037,
+# 5,
+# array([[16.63095238, 16.36904762],
+#        [18.14285714, 17.85714286],
+#        [26.20634921, 25.79365079],
+#        [18.6468254 , 18.3531746 ],
+#        [20.15873016, 19.84126984],
+#        [27.21428571, 26.78571429]]))
 ```
 
 
@@ -190,8 +215,10 @@ pd.crosstab(df['월수입'],df['사용브랜드'])
 1. 정규성 가정
    - 표본의 크기가 충분히 크지 않은데 모집단이 정규분포를 따르는지 모를 때 사용하는 검정
    - 내가 뽑은 표본이 정규분포를 따르는 모집단에서 나온 건지 아닌지 판단
+   - p-value < 0.05여야 가정 충족
 2. 등분산 가정
    - 등분산 = 그룹 간 분산 같다
+   - p-value가 > 0.05 여야 가정 충족
    - 그룹간 변동과 그룹내 변동을 이용해서 분석
    - 그룹간 변동 > 그룹내 변동 하다면, 그룹 간 차이가 존재한다고 검정
    - 등분산 가정을 확인하는 검정 >> levene's test(레빈의 검정), bartlett's test(바틀렛 검정)
@@ -221,5 +248,33 @@ sp.stats.levene(mean1, mean2)
 #t-test
 stats.ttest_ind(mean1, mean2, equal_var = False) #equal_var : 등분산이 같냐
 #pvalue=3.598124628532717e-17) >> 두 집단 간 차이 있음
+```
+
+
+
+**다음날 복습한 내용**
+
+```python
+mean = df['재구매의향'].values
+mean1 = df[df['사용브랜드'] == 1].재구매의향.values
+mean2 = df[df['사용브랜드'] == 2].재구매의향.values
+
+%matplotlib inline
+sns.distplot(mean1, kde = False, fit = sp.stats.norm)
+sns.distplot(mean2, kde = False, fit = sp.stats.norm)
+plt.show()
+sp.stats.shapiro(mean1)
+#결과가 0.05보다 작으므로 >> 통계적으로 유의
+```
+
+![image-20220209010224534](Statistics_01.assets/image-20220209010224534.png)
+
+
+
+```python
+sp.stats.levene(mean1, mean2)
+#LeveneResult(statistic=0.1179597504462619, pvalue=0.7315465812585951)
+#p-value가 0.05보다 크므로
+#귀무가설(등분산 가정 기각 못함 > 가정 충족함)
 ```
 
