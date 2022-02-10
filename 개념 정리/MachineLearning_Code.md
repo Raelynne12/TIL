@@ -276,3 +276,29 @@ len(outlier) #25개
 
 **5. 모델링**
 
+```python
+#1. 데이터 분리
+from sklearn.model_selection import train_test_split
+
+#feature data, label data(지도학습)
+X = df_final.drop(columns = ['Survived']) #아까 그 정상값들 중에 survived drop
+y = df_final['Survived'] #정상값들의 survived 열
+
+print('X의 데이터 개수 : %d'%(len(X)))
+print('y의 데이터 개수 : %d'%(len(y)))
+
+#출력결과
+#X의 데이터 개수 : 687
+#y의 데이터 개수 : 687
+
+#train data, test data로 분리
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.3, random_state = 42) #42인 이유 : 노가다 해보니 얘가 제일 값이 잘 나오더라
+
+print('학습한 데이터 개수 : %d'%(len(X_train)))
+print('테스트하기 위해 남겨둔 데이터 개수 : %d'%(len(X_test)))
+
+#출력결과
+#학습한 데이터 개수 : 480
+#테스트하기 위해 남겨둔 데이터 개수 : 207
+```
+
