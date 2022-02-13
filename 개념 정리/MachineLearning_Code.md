@@ -818,3 +818,123 @@ dtmodel.predict(test_X)
 #       0, 2, 2, 2, 2, 2, 0, 0])
 ```
 
+
+
+**2번째**
+
+```python
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_breast_cancer
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn import tree
+from sklearn.metrics import confusion_matrix
+from sklearn.utils.multiclass import unique_labels
+```
+
+```python
+#데이터 불러오기
+
+X, Y = load_breast_cancer(return_X_y=True)
+X = np.array(X)
+Y = np.array(Y)
+
+len(X[0]) #feature 개수 > 30
+
+X.shape #(569,30)
+```
+
+```python
+#train, test
+train_X, test_X, train_Y, test_Y = train_test_split(X, Y, test_size= 0.2, random_state=42)
+
+len(test_Y) #평가용 샘플 개수 : 455
+
+#class가 0인거, 1인 거
+len(test_Y) - sum(test_Y) #클래스가 0인 평가용 샘플 > 43
+sum(test_Y) #클래스가 1인 평가용 샘플
+
+#의사결정나무 초기화 > 학습
+dtmodel = DecisionTreeClassifier()
+dtmodel.fit(train_X, train_Y) 
+
+#예측
+y_pred = dtmodel.predict(test_X)
+```
+
+````python
+#혼동행렬
+cm = confusion_matrix(test_Y, y_pred)
+print(cm)
+#Confusion Matrix : 
+# [[40  3]
+# [ 3 68]]
+
+#출력
+fig = fig = plt.figure(figsize=(5,5))
+ax = sns.heatmap(cm, annot=True) #annot > 각 셀에 숫자
+ax.set(title='Confusion Matrix',
+            ylabel='True label',
+            xlabel='Predicted label')
+fig.savefig("decistion_tree.png")
+````
+
+![image-20220213235625873](MachineLearning_Code.assets/image-20220213235625873.png)
+
+```python
+#예측값 저장
+y_pred_train = dtmodel.predict(train_X)
+y_pred_test = dtmodel.predict(test_X)
+
+#혼동행렬 계산
+cm_train = confusion_matrix(train_Y, y_pred_train)
+cm_test = confusion_matrix(test_Y, y_pred_test)
+
+print('trainX confusion matrix  : \n{}'.format(cm_train))
+print('testX confusion matrix : \n{}'.format(cm_test))
+#trainX confusion matrix  : 
+#[[169   0]
+# [  0 286]]
+#testX confusion matrix : 
+#[[40  3]
+# [ 3 68]]
+```
+
+```python
+#정확도 계산
+acc_train = dtmodel.score(train_X, train_Y)
+acc_test = dtmodel.score(test_X, test_Y)
+
+#출력
+print('train_X Accuracy: %f' % (acc_train))
+print('test_X Accuracy: %f' % (acc_test))
+#train_X Accuracy: 1.000000
+#test_X Accuracy: 0.947368
+
+accuracy_score(test_Y, y_pred) #0.9473684210526315 > 94%
+
+#정밀도 계산
+precision_train = precision_score(train_Y, y_pred_train)
+precision_test = precision_Score(test_Y, y_pred_test)
+
+print(precision_train)
+print(precision_test)
+#1.0
+#0.9577464788732394
+
+#재현율 계산
+recall_train = recall_score(train_Y, y_pred_train)
+recall_test = recall_score(test_Y, y_pred_test)
+
+print(recall_train)
+print(recall_test)
+#1.0
+#0.9577464788732394
+```
+
