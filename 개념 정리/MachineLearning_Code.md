@@ -761,3 +761,60 @@ print(data_pred)
 ```
 
 ![image-20220213232943086](MachineLearning_Code.assets/image-20220213232943086.png)
+
+```python
+#sklearn 의사결정나무 - 데이터 전처리
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+#sklearn 저장된 데이터 불러오기
+X, Y = load_iris(return_X_y = True) #return_X_y > feature랑 label만 필요
+
+df = pd.DataFrame(X, columns = ['꽃받침 길이', '꽃받침 넓이', '꽃잎 길이', '꽃잎 넓이'])
+
+df['클래스(품종)'] = Y #새로 만듦
+```
+
+```python
+#학습용, 평가용
+train_X, test_X, train_Y, test_Y = train_test_split(X, Y, test_size = 0.2, random_state = 42)
+
+#원본데이터 출력
+print(df[])
+
+#전처리한 데이터 5개만 추출, 출력
+print(train_X[:5])
+print(train_Y[:5]) #[0 0 1 0 0]
+print(test_X[:5])
+print(test_Y[:5]) #[1 0 2 1 1]
+```
+
+```python
+from matplotlib import pyplot as plt #이런 방법도 있음
+from sklearn import tree
+
+#의사결정나무 모델 초기화, 학습
+dtmodel = DecisionTreeClassifier(max_depth = 2)
+dtmodel.fit(train_X, train_Y)
+
+#학습한 결과 출력
+plt.rc('font', family = 'NanumGothic')
+fig = plt.figure(figsize = (25,20))
+tree.plot_tree(dtmodel,
+              feature_names = ['꽃받침 길이', '꽃받침 넓이', '꽃잎 길이', '꽃잎 넓이'],
+              class_names = ['setosa', 'versicolor', 'virginica'],
+              filled = True)
+plt.show()
+```
+
+![image-20220213234444947](MachineLearning_Code.assets/image-20220213234444947.png)
+
+```python
+#test data로 예측
+dtmodel.predict(test_X)
+#array([1, 0, 2, 1, 1, 0, 1, 2, 1, 1, 2, 0, 0, 0, 0, 1, 2, 1, 1, 2, 0, 2,
+#       0, 2, 2, 2, 2, 2, 0, 0])
+```
+
