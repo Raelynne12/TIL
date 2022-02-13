@@ -308,7 +308,7 @@ print('테스트하기 위해 남겨둔 데이터 개수 : %d'%(len(X_test)))
 
 
 
-## 3일차 - 지도학습
+## 3일차 - 지도학습(회귀분석)
 
 > 지도학습 두 분석 종류인 회귀분석과 분류분석을 해보자
 
@@ -384,13 +384,336 @@ print('테스트하기 위해 남겨둔 데이터 개수 : %d'%(len(X_test)))
   - 평균을 그대로 이용하기 때문에 입력값 크기에 의존적
   - 절대적 값과 비교 불가능
   - MSE(mean squared error)
+    - 실제값-예측값 > 제곱 > 평균화
+    - 예측값과 실제값 차이 면적 합
     - 작을수록 성능 좋음
-    - 이상치에 민감
+    - 이상치에 민감(특이값 존재하면 수치가 많이 늘어남)
   - MAE(mean absolute error) 
-    - 평균 절대값 오차(오차값 절대값 평균)
+    - 실제값-예측값 > 절대값으로 변환 > 평균화
     - 작을수록 성능 좋음
     - 변동성 큰 지표와 낮은 지표 같이 예측할 때 굿
-- RMSE
-- MSLE
-- MAPE
+- RMSE(root mean squared error)
+  - MSE에 루트 씌우기
+  - 에러에 따른 손실이 크게 오를 때 굿
+- MSLE(mean squared log error)
+  - MSE에 로그
+- MAPE(mean absolute percentage error)
+  - MAE를 퍼센트로
+  - 단점은 MAE랑 같음
+  - 편향 존재
 - R제곱(결정 계수)
+  - 결정 계수 : 회귀식이 얼마나 정확한지 나타내는 수
+  - 0~1 사이로 >> 0에 가까울수록 정확도가 낮고 / 1에 가까울수록 정확도가 높다
+  - 구하는 방법
+    - 상관계수 > 제곱
+    - 분산분석 데이터 이용(SSR/SST)
+  - 1 - RSS/TSS
+  - 이것만으로는 의사결정하기 힘듦 > 가설검정을 통해 의사결정(양자택일)
+
+
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+```
+
+```python
+X = [8.70153760, 3.90825773, 1.89362433, 3.28730045, 7.39333004, 2.98984649, 2.25757240, 9.84450732, 9.94589513, 5.48321616]
+Y = [5.64413093, 3.75876583, 3.87233310, 4.40990425, 6.43845020, 4.02827829, 2.26105955, 7.15768995, 6.2909744,
+     5.19692852]
+```
+
+```python
+#1.X의 형태를 변환 > train_X 저장
+#2.Y의 형태를 변환 > train_Y에 저장
+train_X = pd.DataFrame(X, columns = ['X'])
+train_Y = pd.Series(Y)
+
+# 변환된 데이터를 출력.
+print('전 처리한 X 데이터: \n {}'.format(train_X))
+print('전 처리한 X 데이터 shape: {}\n'.format(train_X.shape))
+
+print('전 처리한 Y 데이터: \n {}'.format(train_Y))
+print('전 처리한 Y 데이터 shape: {}'.format(train_Y.shape))  
+```
+
+![image-20220213185346153](MachineLearning_Code.assets/image-20220213185346153.png)
+
+```python
+#모델 초기화
+lrmodel = LinearRegression()
+#train/test
+lrmodel.fit(train_X, train_Y)
+```
+
+```
+linearregression() : 선형회귀
+
+- 가장 기본
+- 훈련데이터에 가장 잘 들어맞는 선형 방정식
+```
+
+```python
+#학습한 결과 시각화
+plt.scatter(X,Y) #산점도
+plt.plot([0,10], [lrmodel.intercept_, 10*lrmodel.coef_[0] + lrmodel.intercept_], c = 'pink')
+plt.xlim(0,10)
+plt.ylim(0,10)
+plt.title('result')
+plt.show()
+```
+
+![image-20220213190225412](MachineLearning_Code.assets/image-20220213190225412.png)
+
+```
+.coef_ : 추정된 가중치들을 보여줌
+.intercept_ : y절편(추정된 상수)
+```
+
+```python
+lrmode.intercept_  #2.5061811726114125
+lrmodel.coef_  #array([0.43078118]) array 형태
+beta_0 = lrmodel.intercept_
+beta_1 = lrmodel.coef_[0] #계수값(weight값) > 0.4307811782769159
+print(beta_0) #2.5061811726114125
+print(beta_1) #0.4307811782769159
+```
+
+
+
+```python
+#단순선형회귀 예측
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = [8.70153760, 3.90825773, 1.89362433, 3.28730045, 7.39333004, 2.98984649, 2.25757240, 9.84450732, 9.94589513, 5.48321616]
+Y = [5.64413093, 3.75876583, 3.87233310, 4.40990425, 6.43845020, 4.02827829, 2.26105955, 7.15768995, 6.29097441, 5.19692852]
+
+train_X = pd.DataFrame(X, columns=['X'])
+train_Y = pd.Series(Y)
+
+lrmodel = LinearRegression()
+lrmodel.fit(train_X, train_Y)
+```
+
+```python
+#train_X 예측(predict)
+pred_X = lrmodel.predict(train_X)
+print(pred_X)
+print(train_Y)
+```
+
+![image-20220213194952990](MachineLearning_Code.assets/image-20220213194952990.png)
+
+
+
+```python
+#다중선형회귀 - 데이터전처리
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score  #평가 지표 / 결정 계수 보겠다
+from sklearn.model_selection import train_test_split
+```
+
+```python
+df = pd.read_csv('./Advertising.csv')
+df.head()
+```
+
+![image-20220213195140235](MachineLearning_Code.assets/image-20220213195140235.png)
+
+```python
+#필요없는 열 제거
+df = df.drop(columns = ['Unnamed: 0'])
+#info로 확인
+df.info()
+# 0   FB         200 non-null    float64
+# 1   TV         200 non-null    float64
+# 2   Newspaper  200 non-null    float64
+# 3   Sales      200 non-null    float64
+```
+
+```python
+#1. sales변수는 label데이터로 y에 저장, 나머지는 x에 저장
+X = df.iloc[:,:-1]
+Y = df.iloc[:,-1]
+
+#2. train/test
+train_X, test_X, train_Y, test_Y = train_test_split(X, Y, test_size = 0.2, random_state = 42) #8:2로 
+
+print(train_X)
+print(train_Y)
+print(test_X)
+print(test_Y)
+```
+
+```python
+#학습시키기
+lrmodel = LinearRegression()
+lrmodel.fit(train_X, train_Y)
+
+#학습된 파라미터 값 불러오기
+beta_0 = lrmodel.intercept_ #y절편(기본 판매량)
+beta_1 = lrmodel.coef_[0] #1번째 변수에 대한 계수(FB)
+beta_2 = lrmodel.coef_[1] #2번째 변수에 대한 계수(TV)
+beta_3 = lrmodel.coef_[2]
+
+print(beta_0)
+print(beta_1)
+print(beta_2)
+print(beta_3)
+#2.979067338122629
+#0.044729517468716326
+#0.18919505423437655
+#0.0027611143413671757
+
+#회귀식 >> Y(종속변수) = 0.04*x1 + 0.18*x2 + 0.002*x3 + 2.979
+```
+
+```python
+#예측
+lrmodel.predict(test_X)
+#array([16.4080242 , 20.88988209, 21.55384318, 10.60850256, 22.11237326,
+#       13.10559172, 21.05719192,  7.46101034, 13.60634581, 15.15506967,
+#        9.04831992,  6.65328312, 14.34554487,  8.90349333,  9.68959028,
+#       12.16494386,  8.73628397, 16.26507258, 10.27759582, 18.83109103,
+#       19.56036653, 13.25103464, 12.33620695, 21.30695132,  7.82740305,
+#        5.80957448, 20.75753231, 11.98138077,  9.18349576,  8.5066991 ,
+#       12.46646769, 10.00337695, 21.3876709 , 12.24966368, 18.26661538,
+#       20.13766267, 14.05514005, 20.85411186, 11.0174441 ,  4.56899622])
+```
+
+독립변수 X > feature
+
+종속변수 Y > target
+
+잔차 = 샘플 관측값 - 예측값
+
+```python
+#회귀 알고리즘 평가지표_mse, mae
+from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
+```
+
+```python
+#train_X, mse, mae 계산
+pred_train = lrmodel.predict(train_X)
+pred_test = lrmodel.predict(test_X)
+
+mse_train = mean_absolute_error(train_Y, pred_train)
+mae_train = mean_squared_error(train_Y, pred_train)
+
+print('MSE_train : %f' % MSE_train)
+print('MAE_train : %f' % MAE_train)
+#MSE_train : 1.198468
+#MAE_train : 2.705129
+
+#train 데이터가 당연히 test 데이터보다 잘나옴
+```
+
+```python
+MSE_test = mean_absolute_error(test_Y, pred_test)
+MAE_test = mean_squared_error(test_Y,pred_test)
+
+print('MSE_test : %f' % MSE_test)
+print('MAE_test : %f' % MAE_test)
+#MSE_test : 1.460757
+#MAE_test : 3.174097
+```
+
+```python
+#train_X 결정계수(R2)
+# 결정계수는 '설명력'
+r2_train = r2_score(train_Y, pred_train)
+print('R2_train : %f'%R2_train)
+#R2_train : 0.895701 >> 89%
+```
+
+```python
+#test_X 예측값 계산
+lrmodel.predict(test_X)
+
+pred_test = lrmodel.predict(test_X)
+r2_test = r2_score(test_Y, pred_test)
+print('R2_test : %f'%R2_test) 
+#R2_test : 0.899438 >> 89%
+# >> test가 더 좋네 ? > 언더피팅 
+#제일 이상적인 건 train 98%, test95~98%래
+```
+
+
+
+---
+
+
+
+## 4일차 - 지도학습(분류분석)
+
+
+
+**분류** : 입력값이 어떤 클래스에 속할 지에 대한 결과값 도출하는 알고리즘
+
+
+
+| 트리 구조 기반 | 의사결정나무, 랜덤포레스트..              |
+| -------------- | ----------------------------------------- |
+| 확률 모델 기반 | 나이브 베이즈 분류기, ..                  |
+| 결정 경계 기반 | 선형 분류기, 로지스틱 회귀 분류기, SVM... |
+| 신경망         | 퍼셉트론, 딥러닝 모델...                  |
+| ..             |                                           |
+
+
+
+**의사결정나무**
+
+- 의사결정 규칙을 나무 구조로 나타내서 > 소집단으로 분류 or 예측
+- 연속적으로 발생하는 의사결정 문제 시각화 > 이뤄지는 시점과 성과 한 눈에
+- 가지치기
+  - 가지를 잘라내서 모형 단순화
+- 가치분할
+  - 나무 가지 생성
+- 결정 규칙
+  - 분할규칙
+    - 새 가지를 어디에서 나오게?
+  - 정지규칙
+    - 어떻게 해야 새 가지가 더 못나오게 ?
+  - 가지치기 규칙
+    - 어느 가지를 쳐내야 예측력이 높게?
+    - 끝마디 너무 많지 않게
+- 특징
+  - 노복잡
+  - 대용량 데이터 빠르게 가능
+  - 비정상적 잡음 데이터에 대해서도 민감함없이 분류 가능
+  - 분류 정확도 굿
+  - 비모수적 모형(수학적 가정 불필요)
+  - 수치형/범주형 변수 모두 사용 가능
+- 활용
+  - 세분화(segmentation)
+    - 비슷한 특성 데이터 몇 개 그룹으로 분할 > 특성 발견
+  - 분류(classification, stratification)
+    - 목표변수의 범주를 몇 등급으로 나눌 때
+  - 차원축소, 변수 선택
+  - 예측
+  - 교호작용효과의 파악
+    - 교호작용 : 두 개 이상 사물이나 현상이 서로 원인-결과가 되는
+  - 범주의 병함, 연속형 변수의 이산화
+- 구현 단계
+  1. 데이터 삽입
+  2. 학습/실험 데이터 
+  3. 의사결정나무 모형
+  4. 분류
+  5. 성과 분석
+  6. 모형 수정
+- 패키지
+  - rpart
+  - printcp() : cross validation 계산
+  - plotcp() : cross validation을 그래프로 보여주는 함수
+  - prune() : 가지치기
+
