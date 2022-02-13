@@ -938,3 +938,148 @@ print(recall_test)
 #0.9577464788732394
 ```
 
+
+
+---
+
+
+
+## 나이브 베이즈
+
+> 스팸메일, 필터, 감정 분석 등에 사용되는 분류 방법
+>
+> 지도학습 > feature, label 파악 필요
+
+
+
+label : 우리가 원하는 분류 결과
+
+feature : 특징(분류에 영향주는 요소들) > 서로 독립이어야 함
+
+
+
+베이즈 정리 : 사전확률을 통해서 사후확률 구할 수 있다
+
+
+
+```python
+from sklearn.naive_bayes import MultinomialNB
+import numpy as np
+import pandas as pd
+
+X = np.random.randint(5, size = (6,100))
+y = np.array([1,2,3,4,5,6])
+
+print(X)
+print()
+print(y)
+```
+
+```python
+clf = MultinomialNB()
+clf.fit(X,y)
+
+#4번째 데이터 class 예측
+#reshape
+clf.predict(X[3].reshape(1,-1)) #1차원으로
+
+#전체 훈련 데이터 예측
+clf.predict(X)
+```
+
+
+
+**영화 댓글 긍정/부정 찾기**
+
+```python
+import numpy as np
+import pandas as pd
+
+%pylab inline
+
+import chardet
+#encoding 자동으로 감지해주는 library
+with open('./imdb_master.csv', 'rb') as f: #binary file을 read > rb
+    result = chardet.detect(f.read())
+    
+train = pd.read_csv('./imdb_master.csv', encoding = result['encoding'])
+train.head()
+
+train.shape #(100000,5) 십만개
+
+#필요없는 nnamed 제거
+train = train.drop(train.columns[[0,1,4]], axis = 1) #axis = 1로 해서 제거
+
+#neg = 0, pos = 1 정수 인코딩 변환
+
+#train label이 세 개임 > negative가 아닌 것들은 걍 다 positive로 만들자
+train.label = [(l != 'neg')*1 for l in train.label]  
+
+train.head()
+```
+
+![image-20220214013134096](MachineLearning_Code.assets/image-20220214013134096.png)
+
+```python
+#컬럼명 재세팅
+d = train
+d.columns = ['user_review', 'positive']
+d.head()
+
+#훈련용 셋, 테스트 셋 분리(7:3)
+split = 0.7
+d_train = d.sample(n= int(split*len(d)))  #sample
+d_test = d.drop(d_train.index)
+```
+
+```python
+#countvectorizer
+#:단어들 카운트(출현 빈도)로 벡터화
+from sklearn.feature_extraction.text import CountVectorizer
+
+vectorizer = CountVectorizer() #함수의 변수화
+features = vectorizer.fit_transform(d_train.user_review)
+
+features #틀린 데이터가 7만건, feature가 12만건
+
+len(vectorizer.get_feature_names()).vectorizer.get_feature_names() 
+#feature가 몇 개 있는지 > 121229
+
+#3만 건에서 100번째 칸까지 확인
+i = 30000
+j = 100
+words = vectorizer.get_feature_names()[i:i+30]
+pd.DataFrame(features[j:j+10, i:i+30].todense(), columns = words)
+
+
+from sklearn.naive_bayes import MultinomialNB
+
+model1 = MultinomialNB()
+model1.fit(features, d_train.positive) #학습, features 값 출력
+#features > countervectorizer 값(frequency 값)
+
+model1.predict(vectorizer.transform(d_test.user_review))
+
+pred1= model1.predict_proba(vectorizer.transform(d_test.user_review)) #예측갑 ㅅfeatures 값 출력
+
+#결과해석
+#neg = 0, pos = 1(두 개 합치면 1)
+pred1.shape
+
+#평가하기
+from sklearn.metrics import accuracy_score, roc_auc_score, classification_report, roc_curve
+
+def performance(y_true, pred, color = 'blue', ann = True):
+    acc = accuracy_score(y_true, pred[:,1] > 0.5) #긍정일 확률 확인(0.5보다 큰지 확인)
+    auc = roc_auc_score(y_true, pred[:,1])
+    fpr, tpr, thr = roc_curve(y_true, pred[:,1])
+    plot(fpr, tpr, color, linewidth = '3')
+    xlabel('False Positive Rate')
+    ylabel('True Positive Rate')
+    if ann:
+        annotate('Acc : %0.2f'%acc, (0.1,0.8), size = 14) #가로 세로래
+        annotate('Auc : %0.2f'%auc, (0.1,0.7), size = 14)
+        
+performance(d_test.positive, pred1)
+```
+
