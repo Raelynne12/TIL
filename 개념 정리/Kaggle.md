@@ -35,6 +35,10 @@
 
 ### 1) EDA 분석하기
 
+
+
+**1. 데이터 로드**
+
 ```python
 import numpy as np
 import pandas as pd
@@ -79,3 +83,17 @@ test = pd.read_csv('./test.csv') #테스트 세트, 2015년 11월의 상점 및 
 ![image-20220215225142455](Kaggle.assets/image-20220215225142455.png)
 
 (sample.head)
+
+
+
+**2. 중복있나 체크**
+
+
+
+
+
+**3. null값 체크**
+
+
+
+**4. 이상치 제거**
