@@ -30,3 +30,52 @@
 - item_name - 항목의 이름
 - shop_name - 가게 이름
 - item_category_name - 항목 범주의 이름 이 데이터 세트는 상업적 사용을 포함한 모든 목적으로 사용할 수 있습니다.
+
+
+
+### 1) EDA 분석하기
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+```
+
+```python
+categories = pd.read_csv('./item_categories.csv') #항목 카테고리 추가 정보
+items = pd.read_csv('./items.csv') #항목/제품 추가 정보
+sales_train = pd.read_csv('./sales_train.csv')  #훈련시킬 세트, 2013년 1월~ 2015년 10월까지 데이터
+sample = pd.read_csv('./sample_submission.csv') #올바른 형식의 샘플 제출 파일
+shops = pd.read_csv('./shops.csv') #상점 추가 정보
+test = pd.read_csv('./test.csv') #테스트 세트, 2015년 11월의 상점 및 제품 매출 예측
+```
+
+```
+총 여섯 가지의 CSV파일의 HEAD 미리보기
+```
+
+![image-20220215224852164](Kaggle.assets/image-20220215224852164.png)
+
+(categories.head)
+
+![image-20220215224926582](Kaggle.assets/image-20220215224926582.png)
+
+(items.head)
+
+![image-20220215224948734](Kaggle.assets/image-20220215224948734.png)
+
+(shops.head)
+
+![image-20220215225039476](Kaggle.assets/image-20220215225039476.png)
+
+(sales_train.head)
+
+![image-20220215225120414](Kaggle.assets/image-20220215225120414.png)
+
+(test.head)
+
+![image-20220215225142455](Kaggle.assets/image-20220215225142455.png)
+
+(sample.head)
