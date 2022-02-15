@@ -88,7 +88,11 @@ test = pd.read_csv('./test.csv') #테스트 세트, 2015년 11월의 상점 및 
 
 **2. 중복있나 체크**
 
+```python
+sales_train[sales_train.duplicated()]  #중복행 6개 있음
+```
 
+![image-20220215235821750](Kaggle.assets/image-20220215235821750.png)
 
 
 
