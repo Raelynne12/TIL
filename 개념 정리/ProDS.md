@@ -137,12 +137,25 @@
   - 회귀형 > 어떤 함수를 찾아내는 것(직선)
   - 분류형 : linear regression, k-nearest neighbors, logistic regression, softmax regression
   - 회귀+분류형 : decision tree, svm, random forest, boosting, neural network, deep learning
+  - x,y(범주형, 연속형)
 - 비지도학습(unsupervised learning)
   - 라벨이 없는 훈련용 데이터에서 특정 변수들 간 관계나 유사성 기반으로 의미있는 패턴 추출
   - '자율학습'
   - 군집화(clustering), 차원축소(dimention reduction), 추천시스템 등에 활용
   - 차원축소 : 특성변수들만 모아서 차원축소, 최대한 많이 남기면서 필요한 데이터들만 > 예측력 높일 수 ㅇ
   - k-means clustering, hierachical clustering, pca, t-sne, apirori, auto-encoders
+  - x
 - 강화학습(reinforcement learning)
   - 행동하는 주체가 있고 행동 했을 때 상태와 보상을 바꿔주는 환경으로 구성
   - sarsa, q-learning
+
+
+
+---
+
+
+
+## 4. 머신러닝 모델의 검증 및 평가
+
+
+
