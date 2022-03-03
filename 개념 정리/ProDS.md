@@ -116,4 +116,30 @@
 
 
 
-## 3. 
+## 3. 머신러닝의 기본 개념 및 방법론의 분류
+
+
+
+**머신러닝**
+
+> 명시적으로 프로그래밍하지 않더라도 데이터를 스스로 학습해서 문제를 해결할 수 있게 하는 기술
+>
+> 사람이 인지하기 어려운 복잡한 규칙과 패턴을 파악하여 의미있는 결과를 얻을 수 있음
+
+
+
+**머신러닝 방법론의 분류**
+
+- 지도학습(supervised learning)
+  - 라벨이 있는 훈련용 데이터에서 여러 특성 변수를 이용해서 목표변수인 라벨을 예측하도록 학습
+  - 라벨의 데이터 타입에 따라 라벨이 연속형(숫자로)이면 **회귀**(regression) 알고리즘, 라벨이 범주형이면 **분류**(classification) 알고리즘으로 구분
+  - 분류형 > 분류 경계선을 찾아내는 것
+  - 회귀형 > 어떤 함수를 찾아내는 것(직선)
+  - 분류형 : linear regression, k-nearest neighbors, logistic regression, softmax regression
+  - 회귀+분류형 : decision tree, svm, random forest, boosting, neural network, deep learning
+- 비지도학습(unsupervised learning)
+  - 라벨이 없는 훈련용 데이터에서 특정 변수들 간 관계나 유사성 기반으로 의미있는 패턴 추출
+  - '자율학습'
+  - 군집화, 차원축소, 추천시스템 등에 활용
+  - k-means clustering, hierachical clustering, pca, t-sne, apirori, ato-encoders
+- 강화학습
