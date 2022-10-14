@@ -19,7 +19,7 @@
     }
 }*/
 
-public class Java_for_Test
+/*public class Java_for_Test
 {
     public static int[] numA = {1, 2, 3, 4, 5};
     public static void main(String[] args)
@@ -47,4 +47,67 @@ public class Java_for_Test
         System.out.println(sum);
     }
 
+}*/
+
+/*class BookStore
+{
+    void info()
+
+    {
+        System.out.println("Store");
+    }
 }
+class Books extends BookStore{
+    void info()
+    {
+        super.info();
+        System.out.println("Book");
+    }
+}
+public class Java_for_Test
+{
+    public static void main(String[] args)
+    {
+        BookStore bs = new Books();
+        bs.info();
+    }
+}*/
+
+class Pd
+{
+    int func1(int a, int b)
+    {
+        return (a+b);
+    }
+    int func2(int a, int b)
+    {
+        return (a-b);
+    }
+    int func3(int a, int b)
+    {
+        return(a+b);
+    }
+}
+class Ad extends Pd{
+    int func1(int a, int b)
+    {
+        return (a%b);
+    }
+    int func2(double a, double b)
+    {
+        return ((int)a);
+    }
+    int func3(int a, int b)
+    {
+        return (b);
+    }
+}
+public class Java_for_Test{
+public static void main(String[] args)
+{
+    Pd d = new Ad();
+    System.out.println(d.func1(10, 2));
+    System.out.println(d.func2(10, 2));
+    System.out.println(d.func3(10, 2));
+    
+}}
